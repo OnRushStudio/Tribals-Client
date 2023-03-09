@@ -21,7 +21,7 @@
   "homepage": "https://github.com/MetaHumanREAL/TribalsClient#readme",
   "build": {
     "appId": "com.tribal.client",
-    "productName": "Tribal.io",
+    "productName": "Tribals.io",
     "asar": true,
     "files": [
       "./src/**/*",
@@ -34,7 +34,7 @@
     },
     "win": {
       "target": "nsis",
-      "icon": "resources/icon.ico"
+      "icon": "src/icon.png"
     },
     "nsis": {
       "oneClick": true,

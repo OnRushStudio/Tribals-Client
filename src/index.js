@@ -65,9 +65,9 @@ const createWindow = () => {
     const win = new BrowserWindow({
         width: 1200,
         height: 800,
-        title: `Venge Client`,
+        title: `Tribals Client`,
         backgroundColor: '#202020',
-        icon: __dirname + "/icon.ico",
+        icon: __dirname + "/icon.png",
         webPreferences: {
             preload: __dirname + '/preload.js',
             nodeIntegration: false,
@@ -75,7 +75,7 @@ const createWindow = () => {
     });
     win.removeMenu();
     win.maximize();
-    win.setFullScreen(settings.get('Fullscreen'));
+    win.setFullScreen(false);
 
     win.loadURL('https://tribals.io')
         .catch((error) => console.log(error))
@@ -101,7 +101,7 @@ const createWindow = () => {
     shortcuts.register(win, "F4", () => win.loadURL('https://tribals.io/'));
     shortcuts.register(win, "F5", () => win.reload());
     shortcuts.register(win, "F6", () => { if (clipboard.readText().includes("tribals.io")) { win.loadURL(clipboard.readText()) } })
-    shortcuts.register(win, 'F11', () => { win.fullScreen = !win.fullScreen; settings.set('Fullscreen', win.fullScreen) });
+    shortcuts.register(win, 'F11', () => { win.fullScreen = !win.fullScreen; /*settings.set('Fullscreen', win.fullScreen)*/ });
     shortcuts.register(win, "F12", () => win.webContents.toggleDevTools());
     shortcuts.register(win, "Escape", () => win.webContents.executeJavaScript('document.exitPointerLock()', true));
 
@@ -115,7 +115,7 @@ const createWindow = () => {
             title: "Client Update",
             buttons: ["Now", "Later"],
             message: "Client Update available, do you want to install it now or after the next restart?",
-            icon: __dirname + "/icon.ico"
+            icon: __dirname + "/icon.png"
         }
         dialog.showMessageBox(options).then((result) => {
             if (result.response === 0) {
@@ -143,39 +143,7 @@ const createWindow = () => {
 
     //Discord RPC
     ipcMain.on('loadRPC', (event, data) => {
-        if (data.area == 'game') {
-            rpc_script.setActivity(RPC, {
-                state: 'In a game',
-                startTimestamp: data.now,
-                largeImageKey: data.maps.includes(data.map) ? data.map.toLowerCase() : 'custom',
-                largeImageText: data.mapText == undefined ? data.map + ' - CUSTOM MATCH' : data.mapText,
-                smallImageKey: data.weapon.toLowerCase(),
-                smallImageText: data.weapon,
-                instance: false,
-                buttons: [
-                    {
-                        label: 'Download Client',
-                        url: 'https://social.venge.io/client.html'
-                    }
-                ]
-            });
-        }
-
-        if (data.area == 'menu') {
-            rpc_script.setActivity(RPC, {
-                state: 'On the menu',
-                startTimestamp: app.startedAt,
-                largeImageKey: 'menu',
-                largeImageText: 'Venge.io',
-                instance: false,
-                buttons: [
-                    {
-                        label: 'Download Client',
-                        url: 'https://social.venge.io/client.html'
-                    }
-                ]
-            });
-        }
+        // rpc_script.runRPC(RPC, data);
     });
 }
 
