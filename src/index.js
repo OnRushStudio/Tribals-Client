@@ -51,7 +51,7 @@ const createWindow = () => {
         height: 800,
         title: `Tribals Client`,
         backgroundColor: '#202020',
-        icon: __dirname + "/icon.ico",
+        icon: __dirname + "/icon.png",
         webPreferences: {
             preload: __dirname + '/preload.js',
             nodeIntegration: false,
