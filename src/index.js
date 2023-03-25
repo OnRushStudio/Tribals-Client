@@ -87,7 +87,8 @@ const createWindow = () => {
     shortcuts.register(win, "F6", () => { if (clipboard.readText().includes("tribals.io")) { win.loadURL(clipboard.readText()) } })
     shortcuts.register(win, 'F11', () => { win.fullScreen = !win.fullScreen; settings.set('Fullscreen', win.fullScreen) });
     shortcuts.register(win, "F12", () => win.webContents.toggleDevTools());
-    shortcuts.register(win, "Escape", () => win.webContents.executeJavaScript('document.exitPointerLock()', true));
+    shortcuts.register(win, "Escape", () => win.webContents.executeJavaScript('setTimeout(() => {document.exitPointerLock()}, "200");', true));
+
 
     //Auto Update
     autoUpdater.checkForUpdates();
