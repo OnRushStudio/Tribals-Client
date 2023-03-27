@@ -1,8 +1,9 @@
 require('v8-compile-cache');
 
-const { app, BrowserWindow, globalShortcut, protocol, ipcMain, dialog, clipboard } = require('electron');
+const { app, BrowserWindow, protocol, ipcMain, dialog, clipboard } = require('electron');
 app.startedAt = Date.now();
 const path = require('path');
+var downloadPath = path.normalize(`${app.getPath('appData')}\\vengeclient\\userscript\\`);
 
 const shortcuts = require('electron-localshortcut');
 
@@ -12,54 +13,37 @@ let updateLoaded = false;
 let updateNow = false;
 
 
-//Discord RPC
-const DiscordRPC = require('discord-rpc');
-const clientId = '727533470594760785';
-const RPC = new DiscordRPC.Client({ transport: 'ipc' });
-DiscordRPC.register(clientId);
-const rpc_script = require('./rpc.js');
+//Settings
+const Store = require('electron-store');
+Store.initRenderer();
+const settings = new Store({
+    defaults: {
+        'UncapFPS': true,
+        'Game Capture': false,
+        'Accelerated Canvas': false,
+        'remove-useless': true,
+        'helpful-flag': true,
+        'flag-limit-increase': true,
+        'low latency': false,
+        'exp-flag': false,
+        'gpu-rasterization': true,
+        'Fullscreen': true
+    }
+});
 
 //swapper_func
-const swapper = require('./swapper.js');
+const swapper = require('./modules/swapper.js');
+
+//exit
+ipcMain.on('exit', () => {
+    app.exit();
+});
+//launch Args (thanks to CreepyCats)
+const launchArgs = require('./modules/launchArgs.js');
+launchArgs.pushArguments()
 
 
-//Performance
-app.commandLine.appendSwitch("force_high_performance_gpu");
-app.commandLine.appendSwitch("in-process-gpu");
-app.commandLine.appendSwitch("disable-backgrounding-occluded-windows");
-app.commandLine.appendSwitch("smooth-scrolling");
-app.commandLine.appendSwitch("force-high-performance-gpu");
-app.commandLine.appendSwitch("disable-breakpad");
-app.commandLine.appendSwitch("disable-component-update");
-app.commandLine.appendSwitch("disable-print-preview");
-app.commandLine.appendSwitch("disable-metrics");
-app.commandLine.appendSwitch("disable-metrics-repo");
-app.commandLine.appendSwitch("enable-javascript-harmony");
-app.commandLine.appendSwitch("enable-future-v8-vm-features");
-app.commandLine.appendSwitch("enable-webgl2-compute-context");
-app.commandLine.appendSwitch("disable-hang-monitor");
-app.commandLine.appendSwitch("no-referrers");
-app.commandLine.appendSwitch("renderer-process-limit", 100);
-app.commandLine.appendSwitch("max-active-webgl-contexts", 100);
-app.commandLine.appendSwitch("enable-quic");
-app.commandLine.appendSwitch("high-dpi-support", 1);
-app.commandLine.appendSwitch("ignore-gpu-blacklist");
-app.commandLine.appendSwitch("disable-2d-canvas-clip-aa");
-app.commandLine.appendSwitch("disable-bundled-ppapi-flash");
-app.commandLine.appendSwitch("disable-logging");
-app.commandLine.appendSwitch("disable-web-security");
-app.commandLine.appendSwitch("webrtc-max-cpu-consumption-percentage=100");
-app.commandLine.appendSwitch('webrtc-max-cpu-consumption-percentage', '100')
-
-
-//Uncap FPS
-app.commandLine.appendSwitch('disable-frame-rate-limit');
-app.commandLine.appendSwitch('disable-gpu-vsync');
-
-
-//acceleratedCanvas
-app.commandLine.appendSwitch('enable-accelerated-2d-canvas');
-
+app.allowRendererProcessReuse = true;
 //main Client Code
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -75,7 +59,7 @@ const createWindow = () => {
     });
     win.removeMenu();
     win.maximize();
-    win.setFullScreen(false);
+    win.setFullScreen(settings.get('Fullscreen'));
 
     win.loadURL('https://tribals.io')
         .catch((error) => console.log(error))
@@ -101,9 +85,9 @@ const createWindow = () => {
     shortcuts.register(win, "F4", () => win.loadURL('https://tribals.io/'));
     shortcuts.register(win, "F5", () => win.reload());
     shortcuts.register(win, "F6", () => { if (clipboard.readText().includes("tribals.io")) { win.loadURL(clipboard.readText()) } })
-    shortcuts.register(win, 'F11', () => { win.fullScreen = !win.fullScreen; /*settings.set('Fullscreen', win.fullScreen)*/ });
+    shortcuts.register(win, 'F11', () => { win.fullScreen = !win.fullScreen; settings.set('Fullscreen', win.fullScreen) });
     shortcuts.register(win, "F12", () => win.webContents.toggleDevTools());
-    shortcuts.register(win, "Escape", () => win.webContents.executeJavaScript('document.exitPointerLock()', true));
+    shortcuts.register(win, "Escape", () => win.webContents.executeJavaScript('setTimeout(() => {document.exitPointerLock()}, "200");', true));
 
 
     //Auto Update
@@ -115,7 +99,7 @@ const createWindow = () => {
             title: "Client Update",
             buttons: ["Now", "Later"],
             message: "Client Update available, do you want to install it now or after the next restart?",
-            icon: __dirname + "/icon.png"
+            icon: __dirname + "/icon.ico"
         }
         dialog.showMessageBox(options).then((result) => {
             if (result.response === 0) {
@@ -135,18 +119,10 @@ const createWindow = () => {
         }
     });
 
-    //Swapper
-    win.webContents.on('dom-ready', () => {
-        swapper.runScripts(win, app);
-        swapper.replaceResources(win, app);
-    })
-
-    //Discord RPC
-    ipcMain.on('loadRPC', (event, data) => {
-        // rpc_script.runRPC(RPC, data);
-    });
+    swapper.replaceResources(win, app);
+    swapper.initStyles(win, app);
+    swapper.runScripts(win, app)
 }
-
 
 app.whenReady().then(() => {
     protocol.registerFileProtocol('swap', (request, callback) => {
@@ -164,10 +140,6 @@ app.whenReady().then(() => {
 
 })
 
-app.on("window-all-closed", () => {
-    if (process.platform !== "darwin") {
-        app.quit();
-    }
-});
-
-RPC.login({ clientId }).catch(console.error);
+app.on('window-all-closed', () => {
+    app.quit()
+})

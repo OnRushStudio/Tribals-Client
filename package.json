@@ -1,6 +1,6 @@
 {
-  "name": "tribalclient",
-  "version": "1.0.0",
+  "name": "tribalsclient",
+  "version": "1.0.2",
   "description": "",
   "main": "./src/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/MetaHumanREAL/TribalsClient#readme",
   "build": {
-    "appId": "com.tribal.client",
+    "appId": "com.tribals.client",
     "productName": "Tribals.io",
     "asar": true,
     "files": [
@@ -34,16 +34,22 @@
     },
     "win": {
       "target": "nsis",
-      "icon": "src/icon.png"
+      "icon": "resources/icon.ico"
     },
     "nsis": {
       "oneClick": true,
       "allowToChangeInstallationDirectory": false
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "MetaHumanREAL",
+      "repo": "TribalsClient"
     }
   },
   "dependencies": {
     "discord-rpc": "^4.0.1",
     "electron-localshortcut": "^3.2.1",
+    "electron-store": "^8.1.0",
     "electron-updater": "^5.3.0",
     "v8-compile-cache": "^2.3.0"
   },
