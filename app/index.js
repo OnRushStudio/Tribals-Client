@@ -1,5 +1,5 @@
 require('v8-compile-cache')
-const { app, BrowserWindow, clipboard, protocol, screen, ipcMain, ipcRenderer } = require('electron')
+const { app, BrowserWindow, clipboard, protocol, screen, ipcMain, ipcRenderer, shell } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const https = require('https');
@@ -55,7 +55,7 @@ class Client {
             fullscreen: true,
             backgroundColor: '#202020',
             title: 'Tribals Client',
-            icon: __dirname + "/../icon.ico",
+            icon: __dirname + "/../icon.png",
             webPreferences: {
                 preload: __dirname + '/preload.js',
                 nodeIntegration: false,
