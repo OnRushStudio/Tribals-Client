@@ -194,7 +194,7 @@ class Client {
             'adclick.g.doubleclick.net'
         ]
 
-        const swapDirectory = path.normalize(`${app.getPath('documents')}/Venge Client/Resource Swapper`)
+        const swapDirectory = path.normalize(`${app.getPath('documents')}/Tribals Client/Resource Swapper`)
 
         if (!fs.existsSync(swapDirectory)) {
             fs.mkdirSync(swapDirectory, {
