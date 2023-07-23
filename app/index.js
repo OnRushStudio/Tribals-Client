@@ -107,7 +107,7 @@ class Client {
                 .catch((error) => console.log(error))
         })
         shortcut.register(this.win, 'Escape', () => {
-            this.win.webContents.executeJavaScript('document.exitPointerLock()', true)
+            this.win.webContents.executeJavaScript('setTimeout(() => {document.exitPointerLock()}, "200");', true)
         })
         shortcut.register(this.win, 'F11', () => {
             this.win.fullScreen = !this.win.fullScreen; userPrefs.set('fullscreenMode', this.win.fullScreen)
