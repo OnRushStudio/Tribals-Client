@@ -55,7 +55,7 @@ class Client {
             fullscreen: true,
             backgroundColor: '#202020',
             title: 'Tribals Client',
-            icon: __dirname + "/../icon.ico",
+            icon: __dirname + "/../icon.png",
             webPreferences: {
                 preload: __dirname + '/preload.js',
                 nodeIntegration: false,
@@ -107,7 +107,7 @@ class Client {
                 .catch((error) => console.log(error))
         })
         shortcut.register(this.win, 'Escape', () => {
-            this.win.webContents.executeJavaScript('document.exitPointerLock()', true)
+            this.win.webContents.executeJavaScript('setTimeout(() => {document.exitPointerLock()}, "200");', true)
         })
         shortcut.register(this.win, 'F11', () => {
             this.win.fullScreen = !this.win.fullScreen; userPrefs.set('fullscreenMode', this.win.fullScreen)
