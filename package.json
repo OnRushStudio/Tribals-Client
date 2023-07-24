@@ -2,11 +2,13 @@
   "name": "tribalsclient",
   "version": "1.0.2",
   "description": "",
-  "main": "./src/index.js",
+  "main": "./app/index.js",
   "scripts": {
     "start": "electron .",
     "buildwin": "electron-builder build --win  --x64 --ia32 --publish never",
     "deploywin": "electron-builder build --win --x64 --ia32 --publish always",
+    "buildmac": "electron-builder build --mac  --x64 --ia32 --publish never",
+    "deploymac": "electron-builder build --mac --x64 --ia32 --publish always",
     "dist": "electron-builder -p always"
   },
   "repository": {

@@ -1,9 +1,9 @@
 require('v8-compile-cache')
-const { app, BrowserWindow, clipboard, protocol, screen, ipcMain, ipcRenderer } = require('electron')
+const { app, BrowserWindow, clipboard, protocol, screen, ipcMain, ipcRenderer, shell } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const https = require('https');
-const Store = require('electron-store')
+const Store = require('electron-store');
 const userPrefs = new Store({
     defaults: {
         fullscreenMode: true,
@@ -91,7 +91,7 @@ class Client {
             if (e.hostname === 'tribals.io' && e.hash.length > 1) {
                 return this.win.webContents.loadURL(url)
             }
-            return shell.openExternal(url)
+            // return shell.openExternal(url)
         })
 
         this.win.webContents.on('dom-ready', () => {
