@@ -53,11 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
             right: 1rem;
             position: absolute;
             cursor: pointer;
+            filter: hue-rotate(260deg);
         }
     </style>
     <div id="sidebar">
     <div id="blur-cont"></div>
         <div style="padding-bottom: 1.5rem; padding-top: 1.5rem; font-size: 1.5rem;"> Client Settings </div>
+        <hr>
         <div id="clientContent"></div>
     </div>
     `;
