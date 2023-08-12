@@ -35,6 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
             cursor: pointer;
             position: absolute;
             left: 1rem;
+            width: 100%;
+            height: 100%;
+            text-align: left;
         }
         .field-cont {
             font-size: 1.2rem;
