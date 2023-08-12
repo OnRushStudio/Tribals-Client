@@ -100,6 +100,9 @@ class Client {
 
             redirectWindow.loadURL(url);
 
+            redirectWindow.on('blur', () => {
+                redirectWindow.close()
+            })
 
             this.win.on('focus', () => {
                 redirectWindow.close()
