@@ -1,0 +1,63 @@
+<div v-if="popup.page == 'Transfer'" class="popup">
+    <div class="popup-header">
+        Transfer Items
+        <a v-on:click="closePopup()" href="javascript:;" class="popup-close"><i class="fa fa-times" aria-hidden="true"></i></a>
+    </div>
+
+    <div class="popup-content">
+        <p class="popup-info"><i class="fa fa-info-circle" aria-hidden="true"></i> You can transfer your inventory between two servers. When you transfer to the new server, items on new server will be overridden.</p>
+
+        <div id="two-sides" v-if="popup.content">
+            <div class="column">
+                <table>
+                    <tr>
+                        <th width="32"></th>
+                        <th>{{popup.content.fromName}}</th>
+                    </tr>
+                    <tr v-for="item in popup.content.from">
+                        <td>
+                            <img class="icon" :src="getImage(item.name + '-Icon.png')">
+                        </td>
+                        <td>{{item.name}} <small>{{item.stack}}x</small></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="center">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </div>
+            <div class="column">
+                <table>
+                    <tr>
+                        <th width="32"></th>
+                        <th>{{popup.content.toName}}</th>
+                    </tr>
+                    <tr class="will-be-removed" v-for="item in popup.content.to">
+                        <td>
+                            <img class="icon" :src="getImage(item.name + '-Icon.png')">
+                        </td>
+                        <td>{{item.name}} <small>{{item.stack}}x</small></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="popup-bottom-content">
+            <p v-if="isTransfering">
+                <span class="bar">
+                    <span class="fill"></span>
+                </span>
+                Items are being transfered to new server ({{toServer}})...           </p>
+
+            <span v-if="!isTransfering">
+                <select v-model="fromServer" v-on:change="transferReview()">
+                    <option :value="server.hash" v-for="server in servers">{{server.name}}</option>
+                </select>
+                <select v-model="toServer" v-on:change="transferReview()">
+                    <option :value="server.hash" v-for="server in servers">{{server.name}}</option>
+                </select>
+                <button class="swap-button" v-on:click="swapServers()"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                <button v-on:click="transfer()" class="btn btn-primary"><i class="fa fa-random" aria-hidden="true"></i> Transfer</button>
+            </span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,199 @@
+<div id="servers-wrapper" class="wrapper">
+    <div v-if="popup.active" class="shadow" v-on:click="closePopup()"></div>
+    @import "Server.Transfer.html"
+
+    <div id="header">
+        <span v-on:click="goMenu()" class="back-button">
+            <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+        </span>
+        <span class="header-title">
+            {{translate('Servers')}}
+        </span>
+    </div>
+    <div id="content">
+        <div class="tab-content">
+            <div class="tab-content-box">
+                <div class="tabs">
+                    <li v-for="item in serverTabs"
+                        :class="{'active' : tab == item.tab, 'account-disactive' : item.tab == 'MyServers' && session.hash.length == 0 }" 
+                        v-on:click="tab = item.tab, getServers()">
+                            <span class="icon-container">
+                                <i class="fa" :class="item.icon" aria-hidden="true"></i>
+                            </span>
+                            {{translate(item.name)}}
+                    </li>
+                </div>
+
+                <div class="tab-content server-content">
+                    <div id="tab-head-wrap">
+                        <div class="search-form">
+                            <label><i class="fa fa-search" aria-hidden="true"></i> {{translate('Search')}}:</label>
+                            <input v-model="search.keyword" type="text" :placeholder="translate('Keywords') + '...'">
+                        </div>
+
+                        <div class="tab-field">
+                            <div class="row-field">
+                                <label><i class="fa fa-filter" aria-hidden="true"></i> {{translate('Filter')}} - {{translate('Region')}}: </label>
+                                <select v-model="search.region">
+                                    <option v-for="item in region.list" 
+                                            :selected="item.code == search.region"
+                                            :value="item.code">
+                                            {{item.code}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="vl"></div>
+                            
+                            <button class="button" v-on:click="tab == 'MyServers' ? getMyServers() : getServers()">
+                            <i class="fa fa-refresh" aria-hidden="true"></i> {{translate('Refresh')}}
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="content" v-if="tab == 'Official' || tab == 'Favorites'">
+                        <table id="myTable" class="table">
+                            <tr class="sort-header">
+                                <th>#</th>
+                                <th v-on:click="sort('name')">
+                                    {{translate('Server')}} 
+                                    <i v-if="sortBy == 'name'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
+                                </th>
+                                <th v-on:click="sort('region')">
+                                    {{translate('Region')}} 
+                                    <i v-if="sortBy == 'region'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
+                                </th>
+                                <th v-on:click="sort('players')">
+                                    {{translate('Players')}} 
+                                    <i v-if="sortBy == 'players'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
+                                </th>
+                                <th>{{translate('Password')}} </th>
+                                <th v-on:click="sort('lastJoin')">
+                                    {{translate('Last Join Time')}}
+                                    <i v-if="sortBy == 'lastJoin'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
+                                </th>
+                                <th width="100">{{translate('Transfer')}}</th>
+                                <th width="50">{{translate('Connect')}}</th>
+                            </tr>
+                            <tr v-for="(server, index) in filter(servers)">
+                                <td>
+                                    <span class="favorite">
+                                        <i v-if="favorites.indexOf(server.ip) === -1" v-on:click="toggleFavorite(server)" class="fa fa-star-o" aria-hidden="true"></i>
+                                        <i v-if="favorites.indexOf(server.ip) > -1" v-on:click="toggleFavorite(server)" class="fa fa-star" aria-hidden="true"></i>
+                                    </span>
+                                </td>
+                                <td>{{server.name}}</td>
+                                <td>{{server.region}}</td>
+                                <td>{{server.players}} / {{server.maxPlayers}}</td>
+                                <td class="password">
+                                    <span v-if="server.password == '1'">
+                                        <i class="fa fa-unlock" aria-hidden="true"></i>
+                                        {{translate('Yes')}}
+                                    </span>
+                                </td>
+                                <td>{{server.lastJoin}}</td>
+                                <td>
+                                    <button v-if="currentServerHash && server.players < server.maxPlayers" v-on:click="transferReview(server.hash)" class="btn-table btn-table-secondary">{{translate('Transfer')}} <i class="fa fa-random" aria-hidden="true"></i></button>
+                                </td>
+                                <td>
+                                    <button v-if="server.players < server.maxPlayers" v-on:click="connect(server.hash)" class="btn-table">{{translate('Connect')}} <i class="fa fa-sign-in" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="content" v-if="tab == 'MyServers'">
+                        <table id="myTable" class="table">
+                            <tr class="sort-header">
+                                <th>#</th>
+                                <th v-on:click="sort('name')">
+                                    {{translate('Server')}} 
+                                    <i v-if="sortBy == 'name'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
+                                </th>
+                                <th v-on:click="sort('region')">
+                                    {{translate('Region')}} 
+                                    <i v-if="sortBy == 'region'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
+                                </th>
+                                <th v-on:click="sort('players')">
+                                    {{translate('Players')}} 
+                                    <i v-if="sortBy == 'players'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
+                                </th>
+                                <th v-on:click="sort('upTime')">
+                                    {{translate('Up Time')}}
+                                    <i v-if="sortBy == 'upTime'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
+                                </th>
+                                <th v-on:click="sort('lastJoin')">
+                                    {{translate('Last Join Time')}}
+                                    <i v-if="sortBy == 'lastJoin'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
+                                </th>
+                                <th>{{translate('Actions')}}</th>
+                            </tr>
+                            <tr v-for="server in filter(servers)">
+                                <td>
+                                    <span class="favorite">
+                                        <i v-if="favorites.indexOf(server.ip) === -1" v-on:click="toggleFavorite(server)" class="fa fa-star-o" aria-hidden="true"></i>
+                                        <i v-if="favorites.indexOf(server.ip) > -1" v-on:click="toggleFavorite(server)" class="fa fa-star" aria-hidden="true"></i>
+                                    </span>
+                                </td>
+                                <td>{{server.name}}</td>
+                                <td>{{server.region}}</td>
+                                <td>{{server.players}} / {{server.maxPlayers}}</td>
+                                <td>{{number(server.progress / (1000 * 60))}}m</td>
+                                <td>{{server.lastJoin}}</td>
+                                <td>
+                                    <button v-on:click="connect(server.hash)" class="btn-table">{{translate('Connect')}} <i class="fa fa-sign-in" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="content" v-if="tab == 'Community'">
+                        <table class="table">
+                            <tr>
+                                <th>#</th>
+                                <th> {{translate('Server')}} </th>
+                                <th> {{translate('Region')}} </th>
+                                <th> {{translate('Players')}} </th>
+                                <th> {{translate('Password')}} </th>
+                                <th> {{translate('Up Time')}} </th>
+                                <th> {{translate('Last Join Time')}} </th>
+                                <th> {{translate('Actions')}} </th>
+                            </tr>
+                            <tr v-for="server in filter(servers)">
+                                <td>
+                                    <span class="favorite">
+                                        <i v-if="favorites.indexOf(server.ip) === -1" v-on:click="toggleFavorite(server)" class="fa fa-star-o" aria-hidden="true"></i>
+                                        <i v-if="favorites.indexOf(server.ip) > -1" v-on:click="toggleFavorite(server)" class="fa fa-star" aria-hidden="true"></i>
+                                    </span>
+                                </td>
+                                <td>{{server.ip}}</td>
+                                <td>{{server.region}}</td>
+                                <td>{{server.players}} / {{server.maxPlayers}}</td>
+                                <td class="password">
+                                    <span v-if="server.password == '1'">
+                                        <i class="fa fa-unlock" aria-hidden="true"></i>
+                                        {{translate('Yes')}}
+                                    </span>
+                                </td>
+                                <td>{{number(server.upTime / (1000 * 60))}}m</td>
+                                <td>{{server.lastJoin}}</td>
+                                <td>
+                                    <button v-on:click="connect(server.hash)" class="btn-table">{{translate('CONNECT')}} <i class="fa fa-sign-in" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        
+    </div>
+
+    <div id="content-banner-area">
+        <div id="centered-banner">
+            <p v-if="adblockWarning">Please disable adblock to support us 🙏🏻</p>
+        </div>
+    </div>
+</div>

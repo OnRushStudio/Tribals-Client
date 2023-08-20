@@ -1,0 +1,170 @@
+@import "Common.css";
+@import "Tab.css";
+@import "Form.css";
+@import "Table.css";
+@import "Banners.css";
+@import "MobileCommon.css";
+@import "Popup.css";
+@import "Table.css";
+
+.favorite{
+    font-size: 20px;
+    color: yellow;
+    cursor: pointer;
+}
+
+.password{
+    color: rgb(255, 81, 0);
+    font-size: 20px;
+}
+
+.search-form{
+    padding: 10px;
+    display: block;
+    font-size: 15px;
+    height: 35px;
+    line-height: 35px;
+}
+
+.search-form label{
+    float: left;
+    margin-right: 10px;
+}
+
+.search-form input{
+    background-color: rgba(0, 0, 0, 0.2);
+    border: solid 1px #666;
+    padding: 10px 15px;
+    height: 35px;
+    box-sizing: border-box;
+    font-size: 18px;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.account-disactive{
+    display: none!important;
+}
+
+.good{
+    color: greenyellow;
+}
+
+.bad{
+    color: red;
+}
+
+/*====== Responsive ======*/
+
+/* Tablets */
+@media only screen and (max-width: 1100px){
+    .search-form{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 5px;
+        padding: 10px 0;
+    }
+
+    .search-form label{
+        min-width: fit-content;
+    }
+
+    .search-form input{
+        width: 100%;
+    }
+
+    .password{
+        font-size: 1.7vw;
+    }
+}
+
+
+/* ================ Mobile Devices ================ */
+.mobile .search-form{
+    margin-right: 20px;
+}
+
+.mobile .search-form input{
+    font-size: 15px;
+}
+
+.mobile .search-form label{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+}
+
+.mobile .search-form label i{
+    font-size: 15px;
+}
+
+#two-sides{
+    display: flex;
+    height: 250px;
+    overflow-y: scroll;
+}
+
+#two-sides .column{
+    width: calc(50% - 10px);
+    height: fit-content;
+    min-height: 250px;
+    background-color: #343434;
+}
+
+#two-sides .center{
+    width: 20px;
+    text-align: center;
+    padding-top: 50px;
+}
+
+#two-sides .column .icon{
+    height: 32px;
+}
+
+.swap-button{
+    padding: 12px;
+    background: #575757;
+    border: none;
+    color: #fff;
+    border-radius: 2px;
+    font-size: 21px;
+    margin-left: 5;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.will-be-removed{
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.bar{
+    width: 250px;
+    height: 15px;
+    border: solid 2px #000;
+    background-color: #666;
+    position: absolute;
+    left: 20px;
+}
+
+.fill{
+    width: 0%;
+    height: 15px;
+    background-color: #fff;
+    position: absolute;
+    animation: fillUp 20s linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fillUp{
+    0%{
+        width: 0%;
+    }
+
+    100%{
+        width: 100%;
+    }
+}

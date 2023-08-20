@@ -1,0 +1,43 @@
+<div id="customization-wrapper" class="wrapper">
+    <img v-on:click="goMenu()" id="mini-logo" src="https://tribals.io/images/Tribals-Logo.png">
+    <div id="customization">
+        <h1><i class="fa fa-user" aria-hidden="true"></i> {{translate('Character')}}</h1>
+        <div class="character-username">
+            <span class="username"><i class="fa fa-user-circle-o" aria-hidden="true"></i> {{session.username}}</span>
+            <button v-on:click="goAccount()" class="login-button">
+                <span v-if="!session.logged"><i class="fa fa-unlock-alt" aria-hidden="true"></i> {{translate('Sign In')}}</span>
+                <span v-if="session.logged">{{translate('Profile')}} <i class="fa fa-angle-right" aria-hidden="true"></i></span>
+            </button>
+        </div
+        <br>
+        <div id="customization-scroll">
+            <div v-if="!session.logged" v-on:click="goAccount()" id="customization-locked">
+                <i class="fa fa-lock" aria-hidden="true"></i>
+                <span>{{translate('Login to Customize')}}</span>
+            </div>
+
+            <div v-if="session.logged && !session.canEdit" v-on:click="session.canEdit = true" id="customization-locked">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                <span>{{translate('Click Here to Edit')}}</span>
+            </div>
+            <div v-for="(property, index) in properties" class="field">
+                <label>{{property.label}}</label>
+                <div v-if="property.type == 'model' || property.type == 'tattoo'" class="selection">
+                    <span class="current">{{property.options[property.index]}}</span>
+                    <span v-on:click="next(property)" class="next button">+</span>
+                    <span v-on:click="prev(property)" class="prev button">-</span>
+                </div>
+                <input v-if="property.type == 'size' || property.type == 'color'" type="range" :max="property.options.length - 1" min="0" step="1" v-on:change="updateProperty(property)" v-model="property.index">
+            </div>
+        </div>
+        <div id="customization-bottom">
+            <span class="server-details" v-if="isStreamerMode">
+                <label>Server:</label>
+                {{server.ip}}
+            </span>
+            <button v-on:click="join()" class="submit-button">{{translate('Continue')}} <i class="fa fa-angle-right" aria-hidden="true"></i></button>
+        </div>
+    </div>
+
+    <div id="transition-in"></div>
+</div>

@@ -1,0 +1,24 @@
+<div v-if="popup.page == 'Inbox'" class="popup">
+    <div class="popup-header">
+        Inbox
+        <a v-on:click="closePopup()" href="javascript:;" class="popup-close"><i class="fa fa-times" aria-hidden="true"></i></a>
+    </div>
+
+    <div class="popup-content popup-content-scroll">
+        <p class="popup-info"><i class="fa fa-info-circle" aria-hidden="true"></i> You can find recent logs about your bases from different servers here in this list.</p>
+        <table v-if="popup.content" class="table-last-narrow">
+            <tr>
+                <th></th>
+                <th>Message</th>
+                <th>Server</th>
+                <th>Time</th>
+            </tr>
+            <tr :class="{'viewed' : item.viewed}" v-for="item in popup.content">
+                <td width="28"><img class="small-table-icon" :src="getImage(item.icon)"></td>
+                <td><i v-if="item.viewed" class="fa fa-check-square-o little-margin-right" aria-hidden="true"></i> {{item.message}}</td>
+                <td>{{item.server}}</td>
+                <td>{{item.time}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

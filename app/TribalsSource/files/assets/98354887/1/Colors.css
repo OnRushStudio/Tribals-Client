@@ -1,0 +1,63 @@
+.bleeding-color{
+    border-color: rgb(221 49 57)!important;
+    background-color: rgb(221 49 57)!important;
+    -webkit-box-shadow: 1px 1px 15px 0px rgb(229 62 109 / 75%), inset 0 0 5px #000000!important;
+    -moz-box-shadow: 1px 1px 15px 0px rgba(229, 62, 109, 0.75), inset 0 0 5px #000000!important;
+    box-shadow: 1px 1px 15px 0px rgb(229 62 109 / 75%), inset 0 0 5px #000000!important;
+}
+
+.hunger-color{
+    background-color: #cd6c31!important;
+    border-color: #ca6a2b!important;
+    -webkit-box-shadow: 1px 1px 15px 0px rgba(179 91 37 / 75%), inset 0 0 5px #000000!important;
+    -moz-box-shadow: 1px 1px 15px 0px rgba(179 91 37 / 75%), inset 0 0 5px #000000!important;
+    box-shadow: 1px 1px 15px 0px rgb(179 91 37 / 75%), inset 0 0 5px #000000!important;
+}
+
+.ice-color{
+    background-color: #6fbde9!important;
+    border-color: #a7d4ed!important;
+    -webkit-box-shadow: 1px 1px 15px 0px rgba(219 241 253 / 75%), inset 0 0 5px #000000!important;
+    -moz-box-shadow: 1px 1px 15px 0px rgba(219 241 253 / 75%), inset 0 0 5px #000000!important;
+    box-shadow: 1px 1px 15px 0px rgba(219 241 253 / 75%), inset 0 0 5px #000000!important;
+}
+
+.water-color{
+    background-color: #4d87c8!important;
+    border-color: #74adfb!important;
+    -webkit-box-shadow: 1px 1px 15px 0px rgba(77 135 200 / 75%), inset 0 0 5px #000000!important;
+    -moz-box-shadow: 1px 1px 15px 0px rgba(77 135 200 / 75%), inset 0 0 5px #000000!important;
+    box-shadow: 1px 1px 15px 0px rgba(77 135 200 / 75%), inset 0 0 5px #000000!important;
+}
+
+.drowing-color{
+    background-color: #589deb!important;
+    border-color: #74adfb!important;
+    -webkit-box-shadow: 1px 1px 15px 0px rgba(88 157 235 / 75%), inset 0 0 5px #000000!important;
+    -moz-box-shadow: 1px 1px 15px 0px rgba(88 157 235 / 75%), inset 0 0 5px #000000!important;
+    box-shadow: 1px 1px 15px 0px rgba(88 157 235 / 75%), inset 0 0 5px #000000!important;
+}
+
+.fire-color {
+    background-color: #fb6518!important;
+    border-color: #ff5e00!important;
+    -webkit-box-shadow: 1px 1px 15px 0px rgba(255 103 15 / 75%), inset 0 0 5px #000000!important;
+    -moz-box-shadow: 1px 1px 15px 0px rgba(255 103 15 / 75%), inset 0 0 5px #000000!important;
+    box-shadow: 1px 1px 15px 0px rgb(255 103 15 / 75%), inset 0 0 5px #000000!important;
+}
+
+.poison-color{
+    background-color: #73af1f!important;
+    border-color: #93e51e!important;
+    -webkit-box-shadow: 1px 1px 15px 0px rgba(168 223 61 / 75%), inset 0 0 5px #000000!important;
+    -moz-box-shadow: 1px 1px 15px 0px rgba(168 223 6 / 75%), inset 0 0 5px #000000!important;
+    box-shadow: 1px 1px 15px 0px rgb(169 225 61 / 75%), inset 0 0 5px #000000!important;
+}
+
+.stun-color{
+       background-color: #828767 !important;
+    border-color: #a7ac8b !important;
+    -webkit-box-shadow: 1px 1px 15px 0px rgba(167 172 139 / 75%), inset 0 0 5px #000000!important;
+    -moz-box-shadow: 1px 1px 15px 0px rgba(167 172 139 / 75%), inset 0 0 5px #000000!important;
+    box-shadow: 1px 1px 15px 0px rgb(167 172 139 / 75%), inset 0 0 5px #000000!important;
+}

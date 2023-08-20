@@ -1,0 +1,385 @@
+## Changes
+
+## 1.1.21 - 19 Aug 2023
+- Tradebox sell limit increase to 5,000
+- Party UI implemented (Command removed)
+- 2 Base glitches fixes.
+- Furnace wood depletion changed to 1 wood every 1.5 seconds rather than every 0.5 seconds.
+- Ladder fly glitch fixed.
+- Inventory update notification changed to show total amount of that item in your inventory.
+- Musket attack time fixed so it doesn't shoot a "fake" bullet
+- Weapon range fixed for building damage (Muskets weren't damaging any buildings if they were further than 5 units away)
+- ShipWrecks added with more barrels around them (More barrels also added around the map)
+- Picking up items while dead glitch fixed.
+
+## 1.1.20 - 25 July 2023
+- Terrain glitch fixed.
+- Chat delay changes.
+
+## 1.1.19 - 23 July 2023
+- Some server improvements.
+- Party NamePlate now disappears when player moves out of view distance.
+- Party NamePlate is now more smooth rather than glitching around.
+- Base glitches fixed that have been reported.
+- Door kicking glitch fixed.
+- Incorrect item descriptions changed.
+- Anti-cheat improvements.
+
+## 1.1.18 - 14 July 2023
+I would like to send an announcement explaining what is going on with repair and party system.
+
+We are rolling them out as commands for now as we work on the UI and Repair Table itself. This means you guys can now repair tools and invite friends to your parties and see each other on the map. Here is a little information about both:
+
+# Party System
+## The party system is something everyone can use, start out by typing `/party` or `/p` and it will show you what commands you can run with it.
+- `/p create` - to create a party, the party ID is your username.
+- `/p invite <username>` - invites a user to your party, this invite lasts until the server restarts.
+- `/p join <username>` - joins a party if you have an invite.
+- `/p leave` - leaves the party you are currently in.
+- `/p kick <username>` - kicks a user from your party.
+- `/p disband` - kicks everyone from the party and deletes it.
+- There is a max of 5 users that can join the party (excluding the party owner)
+- The other additions are that users can now see usernames above their party members heads, there is now a map icon for each party member on the map when you press m to open it, it also shows in the top right corner map too and you can see in chat when a party member leaves or dies.
+# Repair System
+## `/repair` this is a command that everyone can use as long as they are close to a toolbox they either own, or are authorized to.
+- You must be holding a broken/damaged tool in order to repair it. The repair cost will be at least 1 of each resource it costs to repair. Other than that it will take a percentage of its durability lost in that round of damage and apply it to its craft cost divided by 2 to get its repair cost.
+- A new system called "Lost Durability" was added, so each time you repair, your tool loses 20% of its max durability. So it will be worth repairing it up until some point. The red line is the lost Durability that it shows on tools.
+- You must be within 3 units of a toolbox you own or are authorized to in order to repair the tool you are holding, if you are but you do not have the required items it will tell you in chat how much items it requires to repair.
+## Items you can repair:
+- Hatchet
+- IronHatchet
+- StonePickaxe
+- IronPickaxe
+- WoodenSpear
+- StoneSpear
+- IronSpear
+- BoneKnife
+- WoodenBow
+*We are holding off on allowing repairs for guns for now as we figure out a good balance for them.*
+
+We hope you enjoy this update, keep up the :tribbles: grind!
+
+Some other changes
+- Notes now save messages when sold in tradebox.
+- Notes max character size set to 256 to save room on the server (The note will cut off where it will allow when you close it)
+- Musket/Pistol firing sound is now position based and fades out the further you get away from shots.
+- Microphone is also position based and fades out the further you get away from the speaker.
+- Resources now respawn in random amounts of time instead of all at once.
+- Added join protection for private servers, private servers are currently being worked on.
+- Microphone lag glitch fixed.
+- SleepingBed and Rug no longer require resources from toolbox to be protected.
+- /repair command added.
+- /party command added.
+- Anti-cheat improvements.
+- Sometimes servers were crashing, we fixed it.
+
+## 1.1.17 - 27 June 2023
+- Some glitches fixed with ladder and roofs.
+- Balance changes. Please read announcements.
+- Only authorized users can upgrade buildings now.
+
+We have seen raiders mostly go through walls/roofs and this is a problem as we’ve wanted to add traps to the game for a while but if people can raid through walls/roofs easier than doors, then it would be very unpredictable to know where people will go through. We want to make the raiding experience similar to Rust where going through doors is typically the best option for time and resources, but is not required.
+# Buildings:
+- All Wood Buildings are now 10,000 Health (or a little less depending on the structure)
+- All Stone Buildings are now 25,000 Health (or a little less depending on the structure)
+- Wooden door is now 5,000 Health
+- Metal door is now 10,000 Health
+# With this we’ve also changed some of the current raiding tools we've seen used.
+# Tools:
+- IronHatchet used to deal 12 damage to buildings, now it deals 8 damage but it still has its 800 Health. This should not be the primary tool for raiding.
+- StoneSpear is now technically better than an IronHatchet, it does the same amount of damage but its health is 200 higher than the IronHatchet.
+- IronSpear is now significantly better than all other weapons. It now has 1,200 Health and deals 12 damage to buildings.
+
+If you have any suggestions for balance changes, please head to #feedback, click the Suggestion button, fill out all the fields and submit! Our staff will then review your suggestion to make sure it’s not a troll and accept it.
+
+Thank you guys for your help in shaping this game and keep up the :tribbles: grind.
+
+## 1.1.16 - 12 June 2023
+- Smelter item burn order fixed.
+- Password remember glitch on Chrome fixed.
+- Survival sub-title removed from logo to fit Twitch's policies.
+- Some UI improvements on ads banners.
+- Animal animation state small bug fixed.
+- Lock position on storage boxes fixed.
+- Newly reported dupe glitches fixed.
+- Some server-side improvements.
+- Welcome and Death messages removed.
+- StreamerMode improved.
+- GunBarrel and Spring description changed.
+- Locks and Ladders no longer take up protection time.
+- Profanity Censor improved.
+- Accounts that used dupe glitches has been banned and wiped. Please report any known bug, so we can fix them.
+
+## 1.1.15 - 2 June 2023
+- Item duping glitches fixed, all accounts that used this glitch has been banned and wiped.
+- TradeBox broken objects glitch fixed.
+- Microphone glitch fixed.
+- Ladder flying glitch fixed. (Please report physics bug)
+- Window shooting collision bug fixed.
+- Privacy text added.
+- Streamer privacy mode added.
+- Server reminder text simpler now.
+- Login/signup page submit issues fixed.
+- Building delay added.
+- Colored username glitch fixed.
+
+## 1.1.14 - 24 May 2023
+- Some major changes on how game works on backend to prevent cheats.
+- Palm tree weird high ping kick glitch fixed.
+- Toolbox icon now disappears when it's destroyed.
+- Painting glitch fixed when you were punching color was changing.
+- Placing any item close to toolbox prevented.
+
+## 1.1.13 - 17 May 2023
+- Roof spawn glitch fixed.
+- Added update popup scrollbar when showing long update text.
+- Version now shows full version list.
+- Microphone glitch fixed.
+- A settings added for toolbox icon.
+- Owner password is hidden now, you can reveal it by clicking on it.
+- Some menu UI improvements.
+- Musket's smoke glitch fixed.
+- Mute chat message sound added.
+- Now you can see recently joined servers on the server list.
+
+## 1.1.12 - 7 May 2023
+- To prevent lag tower, some implementations has been made.
+- When aiming, aim was going off with weapons, this issue has been fixed.
+- People were be able to shoot behind walls, this issue has been fixed.
+- Sleeping bed now requires 30 leaves to craft.
+- Made toolbox radius 10.0 unit and fixed the issue with overlaping toolboxes.
+- Flying glitch fixed, you'll be kicked by server if you are flying.
+- Game freezing building plan glitch fixed.
+- Window side collision glitch fixed.
+- At some places items goes thru the ground, this issue has been fixed.
+- Fixed taking item distance glitch.
+
+## 1.1.10 - 26 April 2023
+- New movement introduced, this movement is designed for better PvP and will be improved overtime.
+- Harvest glitch on players fixed.
+- Swimming, diving and getting out of sea is more smooth now.
+- Black skin glitch fixed.
+- More spawn points added.
+- Going under map glitch fixed.
+- Reported cave glitches fixed. (Please report physics bug)
+- Ladders movement improved.
+- Some material improvements on rock and terrain.
+- Performance improvements.
+- [HOTFIX] disabled slowing down players on eating/attacking.
+
+## 1.1.9 - 11 April 2023
+- Replaced window model.
+- Removed 2 minutes server swap timer.
+- You will get notifications about what happened to your base/character while you're offline.
+- You can now Transfer items through the Find Server tab on main menu.
+- Wooden box buffed.
+- Item loots stays for 120 seconds now.
+- Some performance improvements.
+- Fixed black skin glitch.
+- Weird clan glitch fixed.
+
+## 1.1.8 - 30 March 2023
+- In-game report system added. You can either report chat messages or players.
+- Our team will monitor the reports real-time and take actions.
+
+## 1.1.7 - 29 March 2023
+- Tooltips added for items.
+- Books now wears out on each use.
+- Locks are now 4 digits and the interface has been updated.
+- Cave collisions fixed.
+- Tradebox repair glitch fixed.
+- All iron related stuff has been moved to workbench.
+- Fixed iron stack issue with claiming stash.
+- Torch light fixed.
+
+## 1.1.6 - 18 March 2023
+- Wiki page added.
+- Inventory UI improvements for campfire and smelter.
+- A server-side bug fixed for damage.
+- Campfire model upgraded.
+- Mobile UI fixes for inventory.
+- Slingshot, musket damage glitch fixed.
+- Weapon change and deal different damage fixed, functionalities moved to server-side.
+- More Spanish cuss words added to swear filter.
+- Some clans (and all accounts that is connected to those clans) wiped and banned because of hack and glitch usage.
+- Toolbox glitch fixed.
+- Invisible character glitch fixed.
+- Paint brush bug for not authroized users glitch fixed.
+
+## 1.1.5 - 15 March 2023
+- Mobile inventory UI fixes.
+- Server list UI fixes.
+- Performance fixes on the gameplay.
+
+## 1.1.4 - 10 March 2023
+- Furnace model has been updated.
+- Iron hatchet added.
+- Popcorn model added for eating.
+- Mobile UI improvements.
+- Backend improvements for database.
+- Rendering performance improvements on engine.
+- Sky limit added for building.
+- Flying glitch fixed.
+- Repair functionality has been removed.
+- Some spanish cuss words added to swear filter.
+- Palm tree collision glitch fixed.
+- Item durability wasn't updating properly, now this issue fixed.
+- Animal animations fixed.
+- Shelf can't be damaged, that issue has been fixed.
+- Slingshot FOV lock issue fixed.
+- Sensitivity issue fixed after openning settings menu.
+
+## 1.1.3 - 27 February 2023
+- Annoying rock hit sound fixed.
+- Collision fixes on server side for some iron nodes and minables.
+- Spawning is more randomized now.
+- Window headshot server side bug fixed.
+- Update password option added.
+- Forget password feature added.
+- Pick axe hit latency glitch fixed.
+- Ocean shader on waking up screen fixed.
+
+## 1.0.41 - 16 January 2022
+- Server change timeout is 120 seconds now.
+- Some item stack fixes.
+- Ocean floor collision fixes.
+- Swear words are now filtered.
+
+## 1.0.40 - 9 January 2022
+- Glitching into bases fixed.
+- Fall damage added.
+- Server changing and item transfer feature added back.
+- Spikes and campfire has decaying now.
+- Toolbox shows up on building menu now.
+- Rock hitting animation slowness fixed.
+- Accounts used hack and glitches has been banned.
+- Item dupe glitches fixed.
+
+## 1.0.39 - 31 December 2022
+- Server restart problems fixed.
+- On server restart some structures were staying, that issue fixed.
+- Building structures balanced.
+- Weapon repair on hand disabled.
+- Now toolboxes shows up on map.
+- Map positioning bugs fixed.
+- Now you can see your toolbox on the game, and how long they can protect your base.
+- Toolbox connection radius increased to protect more stuff.
+- You can only have one toolbox in one area.
+- Building costs increased.
+- Spawning algorithm improved.
+- Crouching glitches fixed.
+- Some balance changes for harvesting.
+
+## 1.0.31
+- New island extension added.
+- Server issues fixed.
+- Loading screen improved.
+- Voice chat audio increased.
+- Ladder placement and snap fixes.
+- Storagebox shelf placement and snap fixes.
+- Ladder speed bug fixed.
+- Paint brush tool added.
+- Shelf collision bug fixed.
+- Enemy animations updated.
+- Damage animations improved for better PvP experience.
+- Sky rendering fixed.
+- Durability loss on items in storage box fixed. (Thanks to Geno)
+- Ocean optimized.
+
+## 1.0.25
+- Spike now affects on top.
+- Water collector item added for water.
+- Player kill/death and game time events are saving.
+- Raining added.
+- Cold/warm states added.
+- Ocean collision and swimming glitches fixed.
+- Some fishes were broken for eating, this issue fixed.
+- You can hit with torch now.
+- Flints added around the rocks, so it's now easier to find flints.
+- Collision fixes on the new island.
+
+## 1.0.24
+- New small island added with more space to build.
+- If we own the object, we always deal %33 of current object's durability to remove it quickly.
+- Rarity of pistol, musket book items balanced.
+- Movement speed/sound/animation improvements.
+- Stone pick axe can't harvest wood now.
+- Hatchet can't harvest stone, metal and sulfur now.
+- Stone can't harvest metal and sulfur now but can harvest wood and stone.
+- Crafting metal door requires more metal now.
+- Door sound volumes updated.
+- Damage number animations updated.
+- Movement animations fixed on enemies.
+- Now you can see enemies' inventory on their back.
+- Terrain stuck glitch fixed. (Caves too)
+- Sleeping camera terrain clip fixed.
+- Guests can't craft flags now, undefined flags fixed.
+- CSS issues fixed with campfire.
+- LOD added to distant objects.
+- Clan banner hover red/blue color fixed.
+- Undefined lock glitch fixed.
+
+## 1.0.23
+- Toolbox item added to prevent decaying for houses.
+- Clan feature introduced.
+- Animals balanced, decreased amount of animals.
+- Animal loots added.
+- Harvesting system improved.
+- Plus button now crafts the item directly if there is enough resource.
+- Fixes and improvements on death screen.
+- Ladder movement improved (please take a look this again)
+- Blueprint (book) system added, you add books to your workbench to craft them, they can be stolen, make sure you keep them safe!
+- Food, hunger and health balances.
+- Account changes now are being saved on database.
+- Stone added for game start. Hatchet can be crafted.
+- Matchmaking balances.
+- UI improvements fixes.
+- Search added to crafting area.
+- Jumping improvements.
+- World visual changes and improvements.
+- Integrity bugs fixed, now you can build your base safely.
+- Item drop system improved, it's more stable now.
+- Building wall replace functionality removed.
+- Fishing net decaying decreased.
+- Bone can be crafted now, you can get it from different animals.
+- Torch decaying decreased.
+- Menu UI improvements.
+- Settings works now, you can define key bindings or change sensivity.
+- Punching doesn't do damage to player itself now.
+- Left click holding will make the axe swing automatically.
+- Crouch bugs fixed, you can crouch and hit now.
+- Crafting level removed.
+- Harvesting bugs fixed, it wasn't working properly.
+- Terrain is more smooth now.
+- Coal can be used to light campfire now.
+- HP bar shows on inventory screen too now.
+- Campfire interface improvements.
+- Stone wall bugs fixed.
+- Metal door added to workbench.
+- Bear trap moved to workbench instead of hand crafting.
+- Sun/night icons removed from interface.
+- Bears nerfed.
+- Boars balanced.
+- Wheel menu shows how much needed, or missing now.
+- Crafting bugs fixed and interface overall improved.
+- "Console" is "Server" now. 
+- Repair hammer fixed and improved. First hit repairs, second hit upgrades.
+- Hitting to stump also gives resources.
+- Building system UI improved overall.
+- Wind effects removed.
+- FOV improved.
+- Random animal sounds decreased.
+- Now you can see what to craft in crafting menu, icons are not hidden.
+- Sleeping interface and animations improved.
+- Whenever you leave the game, your body stays in the server. Whenever you join back, you will be at the same place. Also duplication bug fixed with this.
+- Some interface elements are smaller now.
+- FPS display added.
+- Tutorial removed from the beginning.
+- Silvercoins removed from the game.
+- Some important bugs fixed on server-side.
+- Fishing net placement bug fixed.
+- Clouds improved visually.
+- Some hit effects improved.
+
+(v1.0.0) - 28 July 2022
+- Initial release

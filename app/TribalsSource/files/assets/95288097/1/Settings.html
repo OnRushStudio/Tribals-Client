@@ -1,0 +1,267 @@
+<div id="settings-wrapper" class="wrapper">
+    <div id="header">
+        <span v-on:click="goMenu()" class="back-button">
+            <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+        </span>
+        <span class="header-title">
+            {{translate('Settings')}}
+        </span>
+    </div>
+    <div id="content">
+        <div class="tabs">
+            <ul>
+                <li v-for="item in settingsTabs" 
+                    :class="{'active' : tab == item.tab}" 
+                    v-on:click="tab = item.tab">
+                        <span class="icon-container">
+                            <i class="fa" :class="item.icon" aria-hidden="true"></i>
+                        </span> 
+                        {{translate(item.name)}}
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content settings-content">
+            <div class="content" v-if="tab == 'General'">
+                
+                <div class="field">
+                    <label> {{translate('Language')}} - {{settings.currentLanguage}}</label>
+                    <select v-model="settings.currentLanguage" v-on:change="getTranslationServer()">
+                        <option v-for="item in languages.list" 
+                                :selected="item.code == settings.currentLanguage"
+                                :value="item.code">
+                                {{item.text}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="field-wrap">
+                    <div class="field field-checkbox">
+                        <label for="streamerMode">{{translate('Streamer Mode')}}</label>
+                        <div class="field-toggle-wrapper">
+                            <input class="toggle" type="checkbox" id="streamerMode"
+                            v-model="settings.streamerMode">
+                            <label for="streamerMode"></label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content" v-if="tab == 'Interface'">
+                
+                <div class="field-wrap">
+                    <div class="field field-checkbox">
+                        <label for="hideChatMessages">{{translate('Hide Chat Messages')}}</label>
+                        <div class="field-toggle-wrapper">
+                            <input class="toggle" type="checkbox" id="hideChatMessages"
+                            v-model="settings.hideChat">
+                            <label for="hideChatMessages"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="title" for="toolboxIconScale">{{translate('Toolbox Icon Size')}}</label>
+
+                    <div class="input-slider-wrapper">
+                        <div class="input-slider-text">
+                            {{settings.toolboxIconScale}}
+                        </div>
+                        
+                        <input id="toolboxIconScale" type="range" min="1" max="60" v-model="settings.toolboxIconScale">
+                    </div>
+                </div>
+            </div>
+
+           <div class="content" v-if="tab == 'Graphics'">
+
+                <div class="field">
+                    <label class="title" for="fov">{{translate('Field of view (FOV)')}}</label>
+
+                    <div class="input-slider-wrapper">
+                        <div class="input-slider-text">
+                            {{settings.fov}}
+                        </div>
+                        
+                        <input id="fov" type="range" min="10" max="120" v-model="settings.fov">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="title" for="resolution">{{translate('Graphic Quality (Resolution)')}}</label>
+
+                    <div class="input-slider-wrapper">
+                        <div class="input-slider-text">
+                            {{settings.resolution}}
+                        </div>
+                        
+                        <input id="resolution" type="range" min="20" max="100" v-model="settings.resolution">
+                    </div>
+                </div>
+                <br/>
+                
+                <div class="field-wrap">
+                    <div class="field field-checkbox">
+                        <label for="fpsView">{{translate('FPS and Ping Counter')}}</label>
+
+                        <div class="field-toggle-wrapper">
+                            <input class="toggle"  type="checkbox" id="fpsView" v-model="settings.fpsCounter">
+                            <label for="fpsView"></label>
+                        </div>
+                    </div>
+
+                    <!--<div class="field field-checkbox">
+                        <label for="disableSpecialEffects">Disable Special Effects</label>
+
+                        <div class="field-toggle-wrapper">
+                            <input class="toggle" type="checkbox" id="disableSpecialEffects" v-model="settings.disableSpecialEffects">
+                            <label for="disableSpecialEffects"></label>
+                        </div>
+                    </div>
+
+                    <div class="field field-checkbox">
+                        <label for="disableShadows">Disable Shadows</label>
+
+                        <div class="field-toggle-wrapper">
+                            <input class="toggle"  type="checkbox" id="disableShadows" v-model="settings.disableShadows">
+                            <label for="disableShadows"></label>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+
+            <div class="content" v-if="tab == 'Controls'">
+                    <div class="field">
+                        <label> {{translate('Aim Down Sight Sensivity')}} </label>
+                    
+                        <div class="input-slider-wrapper">
+                            <div class="input-slider-text">
+                                {{settings.adsSensivity}}
+                            </div>
+                            
+                            <input type="range" min="0" max="200" 
+                                v-model="settings.adsSensivity">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>{{translate('Mouse Sensivity')}} </label>
+
+                        <div class="input-slider-wrapper">
+                            <div class="input-slider-text">
+                                {{settings.sensivity}}
+                            </div>
+                            
+                            <input type="range" min="0" max="2" step="0.1"  
+                                v-model="settings.sensivity">
+                        </div>
+                    </div>
+                    
+
+                    <div class="field-wrap">
+                        <div class="field field-checkbox">
+                            <label for="invertMouse">{{translate('Invert Mouse (Vertical Axis)')}} </label>
+
+                            <div class="field-toggle-wrapper">
+                                <input class="toggle"  type="checkbox"
+                                id="invertMouse" v-model="settings.invertMouse">
+                                <label for="invertMouse"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <table class="table">
+                        <tr>
+                            <th>{{translate('Function')}}</th>
+                            <th>{{translate('Key')}} </th>
+                            <th>{{translate('Action')}} </th>
+                        </tr>
+
+                        <tr v-for="item in keyboardConfiguration">
+                            <td><span v-if="!item.waiting">{{translate(item.function)}}</span>{{item.waiting ? (translate('PRESS ANY KEY') + '...') : ''}}</td>
+                            <td><p class="keyboard-key">{{item.key}}</p></td>
+                            <td>
+                                <button  v-on:click="updateKeyboardBind(item)"  class="btn-table" type="button">{{translate('Update')}}</button>
+                                <button  v-on:click="resetKeyboardBind(item)" class="btn-table reset" type="button">{{translate('Reset')}}</button>
+                            </td>
+                        </tr>
+                    </table>
+            </div>
+
+            <div class="content" v-if="tab == 'Audio'">
+                <div class="field">
+                    <label>{{translate('Audio')}}</label>
+
+                    <div class="input-slider-wrapper">
+                        <div class="input-slider-text">
+                            {{settings.volume}}
+                        </div>
+                        
+                        <input  type="range" min="0" max="200" 
+                            v-model="settings.volume">
+                    </div>
+                </div>
+
+                
+                <div class="field field-checkbox">
+                    <label for="muteChatMessages">{{translate('Mute Chat Message Sound')}}</label>
+                    <div class="field-toggle-wrapper">
+                        <input class="toggle" type="checkbox" id="muteChatMessages"
+                        v-model="settings.muteChat">
+                        <label for="muteChatMessages"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content" v-if="tab == 'Customs'">
+                <div class="field field-info">
+                    {{translate("You can download different type of crosshairs from Kenney's asset pack, here is the link")}} : 
+                    <a target="_blank" href="https://www.kenney.nl/assets/crosshair-pack">https://www.kenney.nl/assets/crosshair-pack</a>
+                </div>
+                <div class="field field-upload">
+                    <label>
+                       {{translate('Custom Crosshair Image')}} (.png)
+                        <input v-on:change="fileUpload($event.target, 'Crosshair_Image', 'default')" type="file">
+                    </label>
+                    <div class="field-thumbnail">
+                        <img :src="crosshair.default ? crosshair.default : 'crosshair161.png'" accept="image/*">
+                        <button type="button" v-on:click="clearUpload('Crosshair_Image', 'default')" class="pull-right">{{translate('Reset')}}</button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label> {{translate('Crosshair Size')}} </label>
+
+                    <div class="input-slider-wrapper">
+                        <div class="input-slider-text">
+                            {{settings.crosshairScale}}
+                        </div>
+                        
+                        <input type="range" min="60" max="100" 
+                            v-model="settings.crosshairScale">
+                    </div>
+                </div>
+                
+                <div class="field-wrap">
+                    <div class="field field-checkbox">
+                        <label for="hideCrosshair">{{translate('Hide Crosshair')}} </label>
+
+                        <div class="field-toggle-wrapper">
+                            <input class="toggle" type="checkbox" id="hideCrosshair"
+                            v-model="settings.hideCrosshair">
+                            <label for="hideCrosshair"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="content-banner-area">
+        <div id="centered-banner">
+            <p v-if="adblockWarning">Please disable adblock to support us 🙏🏻</p>
+        </div>
+    </div>
+</div>

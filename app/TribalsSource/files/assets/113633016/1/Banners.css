@@ -1,0 +1,28 @@
+#home-banner-alias{
+    left: 20px;
+    bottom: 20px;
+    transform-origin: left bottom !important;
+}
+
+#centered-banner-alias{
+    left: 50%;
+    bottom: 5px;
+}
+
+#sleeping-banner-alias{
+    left: 50%;
+    bottom: 12px;
+    transform-origin: left bottom;
+}
+
+#inventory-banner-alias {
+    left: 50%;
+    bottom: 13px;
+    transform-origin: left bottom;
+}
+
+#death-banner-alias{
+    left: 50%;
+    bottom: 13px;
+    transform-origin: left bottom;
+}

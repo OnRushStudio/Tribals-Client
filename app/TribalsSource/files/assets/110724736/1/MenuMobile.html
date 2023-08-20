@@ -1,0 +1,15 @@
+<div id="mobile-menu-wrapper">
+    <img id="main-logo" src="https://tribals.io/images/Tribals-Logo.png" />
+    <div id="loading-images">
+        <img v-for="image in loadingImages" :src="getImage(image)">
+    </div>
+
+    <div id="mobile-spinner">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>

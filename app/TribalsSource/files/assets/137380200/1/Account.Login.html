@@ -1,0 +1,38 @@
+<form action="javascript:;" class="wide">
+    <div 
+        id="alert" 
+        v-if="alert.active"
+        :class="{'alert-danger' : alert.type == 'danger', 'alert-info' : alert.type == 'info'}"
+    >
+        <i v-if="alert.type == 'danger'" class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
+        <i v-if="alert.type == 'info'" class="fa fa-exclamation-circle" aria-hidden="true"></i> 
+        {{alert.message}}
+    </div>
+    <div class="form-field username-field">
+        <label>{{translate('Username')}}</label>
+        <input v-model="form.username" type="text" placeholder="">
+    </div>
+    <div class="form-field password-field">
+        <label>{{translate('Password')}}</label>
+        <input v-model="form.password" type="password" placeholder="">
+    </div>
+    <div class="form-field flex-align" v-show="!loading">
+        <div class="account-left-box">
+            <p class="tos-text">With registering an account on Tribals.io you accept <a target="_blank" href="https://tribals.io/tos.txt">T.O.S.</a></p>
+            <span class="link-text" v-on:click="page = 'ForgotPassword'">Forgot your password? Click here to reset your password.</span>
+            <p v-if="!isPoki" class="tos-text mini-info">You can find more about our <a target="_blank" href="https://tribals.io/privacy.txt">privacy policy here.</a> </p>
+            
+        </div>
+        
+        <div class="account-button-box">
+            <button type="button" v-on:click="signup()" class="btn btn-secondary"><i class="fa fa-user-plus" aria-hidden="true"></i> {{translate('Register')}}</button>
+            <button type="submit" v-on:click="login()" class="btn btn-primary">{{translate('Login')}}</button>
+        </div>
+        
+    </div>
+
+    <div class="form-field" v-show="loading">
+        <div class="loader loader-center"></div>
+    </div>
+
+</form>

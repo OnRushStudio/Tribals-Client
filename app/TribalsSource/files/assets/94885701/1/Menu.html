@@ -1,0 +1,213 @@
+<div id="menu" class="wrapper">
+    <div v-if="popup.active" class="shadow" v-on:click="closePopup()"></div>
+    @import "Menu.Updates.html"
+    @import "Menu.Inbox.html"
+
+    <div id="shadow">
+        <a href="javascript:;" onclick="window.location.reload()">
+            <div id="logo">
+                <span class="version">{{version}}</span>
+            </div>
+        </a>
+        
+        <div id="news-area" v-if="!isPoki">
+            @import "Menu.News.html"
+        </div>
+
+        <div v-if="!isMobile" id="home-banner-horizontal" class="banner-area"></div>
+        <div v-if="!isMobile" id="home-banner-square" class="banner-area"></div>
+
+        <div id="social-links" class="desktop-only">
+            <!--<a target="_blank" href="https://twitter.com/tribalsio"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a target="_blank" href="https://www.reddit.com/r/TribalsIO/"><i class="fa fa-reddit-alien" aria-hidden="true"></i></a>-->
+            <a target="_blank" href="https://discord.gg/TyRu47mHzF"><i class="fab fa-discord"></i></a>
+            <a target="_blank" href="https://wiki.tribals.io/"><i class="fa fa-book"></i></a>
+            <!--will be removed from poki-->
+            <a v-if="!isPoki" target="_blank" href="https://feedback.tribals.io/"><i class="fa fa-commenting" aria-hidden="true"></i></a>
+        </div>
+
+        <div id="profile-links">
+            <a v-on:click="goScene('Account')" href="javascript:;">
+                <i class="fa fa-user" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div v-if="gameLogs.status" class="popup-log with-icon" id="game-logs">
+            <div v-on:click="hideLogPopup()" class="close-button"></div>
+            
+            <div class="update-header">
+                <h2> {{gameLogs.title}} </h2>
+            </div>
+            <ul> 
+                <li v-for="(item, index) in gameLogs.updates">
+                    <img :src="getImage(item.icon)">
+                    {{item.message}}
+                </li>
+            </ul>
+        </div>
+
+        <!--
+        <div class="popup-wrapper" id="game-modes">
+            <div v-on:click="" class="close-button"></div>
+            
+            <div class="popup-header">
+                <h2> Select Game Mode</h2>
+            </div>
+           <div class="mode-selection">
+               <div class="mode-box">
+                   <div class="mode-image-box">
+                        <img :src="getImage('Dummy-Mode.jpg')">
+                   </div>
+                   
+                   <div class="mode-details">
+                       <p class="title">PVE<p/>
+                       <p>
+                           NO KILLING, SAFE <br/>
+                           NO ITEM TRANSFER
+                        </p>
+                   </div>
+                   <button class="btn btn-primary">Select <i class="fa fa-angle-right" aria-hidden="true"></i></button>
+               </div>
+
+                <div class="mode-box">
+                    <div class="mode-image-box">
+                        <img :src="getImage('Dummy-Mode2.jpg')">
+                   </div>
+                   <div class="mode-details">
+                       <p class="title">PVP<p/>
+                       <p>
+                           KILLING ALLOWED, <br/>
+                           ITEM TRANSFER ALLOWED
+                        </p>
+                   </div>
+                   <button class="btn btn-primary">Select <i class="fa fa-angle-right" aria-hidden="true"></i></button>
+               </div>
+           </div>
+        </div>
+        -->
+
+        <div v-if="dailyReward.enabled" class="background-shadow">
+            <div id="reward-ads">
+                <div v-if="dailyReward.state == 'Claim'">
+                    <div v-on:click="dailyReward.enabled = false;" class="close-button"></div>
+                    <div class="popup-header">{{translate('Daily Reward')}}</div>
+                    <div v-on:click="claimDailyReward()" class="popup-content">
+                        <img class="popup-main-picture" :src="getImage('RewardAds-Banner-001.png')">
+                    </div>
+                    <button v-on:click="claimDailyReward()" class="reward-button">
+                        🎬 {{translate('Get Reward')}}
+                    </button>
+                </div>
+                <div v-show="dailyReward.state == 'Claiming'">
+                    <div class="popup-header">
+                        {{dailyReward.itemName}}
+                    </div>
+                    <div id="reward-container">
+                        <div id="reward-line">
+
+                        </div>
+                        <div id="reward-slider">
+                            <li :class="{'active-one' : index == 16}" v-for="(item, index) in dailyReward.items">
+                                <img :src="getImage(item.icon)">
+                                <b>{{item.amount}}x</b>
+                            </li>
+                        </div>
+                    </div>
+
+                    <button v-if="dailyReward.isDone" v-on:click="dailyReward.enabled = false;" class="reward-button"><i class="fa fa-check" aria-hidden="true"></i> {{translate('Continue')}}</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="play-section">
+            <div v-if="alert" class="alert">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{translate(alert)}}
+            </div>
+
+            <button v-if="!hasHash" v-on:click="playNow()" class="big-button attention">
+                <div v-if="loading" class="loader loader-center"></div>
+                <span v-if="!loading">
+                    {{translate('Play Now')}} 
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </span>
+            </button>
+            <button v-if="hasHash" v-on:click="continueGame()" class="big-button attention">
+                <div v-if="loading" class="loader loader-center"></div>
+                <span v-if="!loading">
+                    {{translate('Continue')}} <small v-if="!streamerMode" class="server-code">{{serverCode}}</small>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </span>
+            </button>
+            <div class="content-wrapper">
+                <button v-on:click="goScene('Servers')" class="invite-button">
+                    <i class="fa fa-server" aria-hidden="true"></i>
+                    {{translate('Find Server')}}
+                </button>
+                <div class="options">
+                    <a v-on:click="goScene('Account')" href="javascript:;">
+                        <p v-if="!profile.active">
+                            <i class="fa fa-user" aria-hidden="true"></i> {{translate('Account')}}
+                        </p>
+                        <div class="mini-profile" v-if="profile.active">
+                           <div class="mini-detail">
+                                <div v-if="profile.clan" class="clan">[{{profile.clan}}]</div>
+                                <username :value="profile.username" :link="'noLink'" :emoji="profile.emoji"></username>
+                            </div>
+                            <div class="profile-exp-wrapper">
+                                <div class="profile-exp-bar">
+                                    <span :style="{ width: 100 * profile.experience_bar+ '%' }"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a v-on:click="goScene('Settings')" href="javascript:;"><i class="fa fa-cog" aria-hidden="true"></i> {{translate('Settings')}}</a>
+                    <a class="option-box" v-if="session.hash" v-on:click="showInbox(), inboxMessageCount = 0" href="javascript:;">
+                        <i class="fa fa-envelope-open" aria-hidden="true"></i> 
+                        <b class="option-info" :class="{ 'no-message' : inboxMessageCount == 0 }">{{inboxMessageCount}}</b>
+                    </a>
+                </div>
+            </div>
+
+            <div id="game-info">
+                <p><i class="fa fa-user-circle" aria-hidden="true"></i> {{translate('Online')}} - {{online}}</p>
+                <a href="https://tribals.io/changes.txt" target="_blank" > Version - {{version}}</a>
+                <a v-if="!isPoki" href="https://tribals.io/privacy.txt" target="_blank">Privacy</a>
+            </div>
+
+            <!--
+            <div class="stats desktop-only">
+                <a href="javascript:;"><i class="fa fa-server" aria-hidden="true"></i> {{country}}</a>
+                <a href="javascript:;">v1.0.0</a>
+            </div>
+            -->
+            <!--
+            <div class="alt-logo-wrapper">
+                <a target="_blank" href="https://poki.com"><img id="studio-logo" :src="getImage('Poki-Logo.png')"></a>
+                <a target="_blank" href="https://onrush.studio/"><img id="studio-logo" :src="getImage('OnRush-Logo.png')"></a>
+            </div>
+            -->
+        </div>
+    </div>
+
+    <!--
+    <div class="portrait-control">
+        <div class="logo-wrap">
+            <a href="/">
+                <img :src="getImage('Tribals-Logo.png')">
+            </a>
+        </div>
+        <p>{{translate('Please rotate your device')}}</p>
+    </div>
+    -->
+
+    <div v-if="showHardwareError" class="hardwareError">
+        <h4>{{translate('Better Performance')}}</h4>
+        <div class="hardware-error-content">
+            <p>{{translate('Looks like you have performance issues, in order to have a better performance.')}}</p>
+            <p>{{translate('Enable hardware acceleration for your browser.')}} </p>
+            <p>{{translate('Chrome Menu > Settings > Advenced') + '. ' + translate('Under System, enable use hardware acceleration when available.')}} </p>
+            <p>{{translate('Relaunch your browser if needed')}}</p>
+            <a class="close-hardware-popup"  v-on:click="closeHardware()">{{translate('Click here to close that screen')}}</a>
+        </div>
+    </div>
+</div>

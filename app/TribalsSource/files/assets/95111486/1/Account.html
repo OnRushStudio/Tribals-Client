@@ -1,0 +1,447 @@
+<div id="account-wrapper" class="wrapper">
+    <div id="header">
+        <span v-on:click="goBack()" class="back-button">
+            <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+        </span>
+        <span class="header-title">
+            {{translate('Account')}}  
+        </span>
+    </div>
+    <div id="content">
+
+        <div v-if="page == 'Login'" class="login-register-wrapper" >
+            @import "Account.Login.html"
+        </div>
+
+
+        <div class="forgot-password-wrapper">
+            <form v-if="page == 'ForgotPassword'" action="javascript:;" class="wide">
+                <div 
+                    id="alert" 
+                    v-if="alert.active"
+                    :class="{'alert-danger' : alert.type == 'danger', 'alert-info' : alert.type == 'info'}">
+                    <i v-if="alert.type == 'danger'" class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
+                    <i v-if="alert.type == 'info'" class="fa fa-exclamation-circle" aria-hidden="true"></i> 
+                    {{alert.message}}
+                </div>
+                <div class="form-field">
+                    <label>{{translate('Username')}}</label>
+                    <input v-model="form.username" type="text" placeholder="">
+                </div>
+               
+                <div class="form-field flex-align" v-show="!loading">
+                     <div class="account-left-box">
+                        <span class="link-text" v-on:click="page = 'Login'"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Login</span>
+                    </div>
+                    <button v-on:click="forgotPassword()" class="btn btn-primary">{{translate('Reset Password')}}</button>
+                </div>
+
+                <div class="form-field" v-show="loading">
+                    <div class="loader loader-center"></div>
+                </div>
+
+            </form>
+        </div>
+       
+
+        <div class="content-page" v-if="page == 'Profile'">
+            <a class="logout-button" href="javascript:;" v-on:click="logout()">
+                {{translate('Logout')}}
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+            <div class="tabs">
+                <li v-on:click="tab = 'Stats'" :class="{'active' : tab == 'Stats'}">STATS</li>
+                <li v-on:click="tab = 'Clan'" :class="{'active' : tab == 'Clan'}"><i class="fa fa-bookmark" aria-hidden="true"></i> MY TRIBE</li>
+                <li v-on:click="tab = 'Friends'" :class="{'active' : tab == 'Friends'}">FRIENDS</li>
+                <li v-on:click="tab = 'Servers', subtab = 'CreateServer'" :class="{'active' : tab == 'Servers'}">CREATE SERVER</li>
+                <li v-on:click="tab = 'Settings'" :class="{'active' : tab == 'Settings'}">SETTINGS</li>
+            </div>
+            <div v-if="tab == 'Stats'" class="tab-content">
+                <h1><span class="clan-slug" v-if="session.clan">[{{session.clan}}]</span> {{session.username}}</h1>
+                <p>{{translate('Profile details will be listed in this area soon') + '.'}} </p>
+
+                <div class="profile-content">
+                    <ul class="stats-col">
+                        <h4> {{translate('Kills') + ' / ' + translate('Deaths')}}</h4>
+                        <li>
+                            <span>{{translate('Kills')}}</span>
+                            <span class="value">{{session.kills}}</span>
+                        </li>
+                        <li>
+                            <span>{{translate('Deaths')}}</span>
+                            <span class="value">{{session.deaths}}</span>
+                        </li>
+                        <li>
+                            <span>{{translate('Headshot')}}</span>
+                            <span class="value">{{session.headshots}}</span>
+                        </li>
+                    </ul>
+                    <ul class="stats-col">
+                        <h4>{{translate('Overall')}}</h4>
+                        <li>
+                            <span>{{translate('Game Time')}}</span>
+                            <span class="value">{{session.game_time}}m</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div v-if="tab == 'Friends'" class="tab-content">
+                <p>{{translate('Friends feature will be introduced soon') + '.'}}</p>
+            </div>
+            <div v-if="tab == 'Servers'" class="tab-content">
+                <div class="tab-content-box">
+                    <div class="subtab">
+                        <ul>
+                            <li
+                                :class="{'active' : subtab == 'CreateServer'}" 
+                                v-on:click="subtab = 'CreateServer'">
+                                <span class="icon-container">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </span> 
+                                Create Server
+                            </li>
+                            <li
+                                :class="{'active' : subtab == 'General'}" 
+                                v-on:click="subtab = 'General'">
+                                <span class="icon-container">
+                                    <i class="fa fa-list" aria-hidden="true"></i>
+                                </span> 
+                                My Servers
+                            </li>
+                        </ul>
+                    </div>
+
+                    
+                    <div class="sub-wrapper">
+                        <div 
+                            id="alert" 
+                            v-if="alert.active"
+                            :class="{'alert-danger' : alert.type == 'danger', 'alert-info' : alert.type == 'info'}"
+                        >
+                            <i v-if="alert.type == 'danger'" class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
+                            <i v-if="alert.type == 'info'" class="fa fa-exclamation-circle" aria-hidden="true"></i> 
+                            {{alert.message}}
+                        </div>
+
+                        <div v-if="subtab == 'General'">
+                            <p>In this area, you can list the servers you have. <a class="pull-right" v-if="!loading" href="javascript:;" v-on:click="onServers()"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</a></p>
+                            <table class="table clan-members-table">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Region</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                                <tr v-for="(server, index) in server.list">
+                                    <td>
+                                        <i class="fa fa-server" aria-hidden="true"></i>
+                                    </td>
+                                    <td>{{server.name}}</td>
+                                    <td>{{server.region}}</td>
+                                    <td>
+                                        {{server.status}}
+                                        <div v-if="server.ready == '0'" class="mini-bar">
+                                            <div class="fill" :style="{'width' : server.progress + '%'}">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button v-if="server.ready == '1'" v-on:click="connectServer(server)" class="btn btn-primary">CONNECT</button>
+                                        <button v-on:click="deleteServer(server)" class="btn btn-danger">DELETE</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div v-if="subtab == 'CreateServer'">
+                            <p>Creating server feature will be available soon!</p>
+                            <form action="javascript:;">
+                                <div class="form-field">
+                                    <label>Server Name</label>
+                                    <input v-model="server.name" maxlength="32" type="text" placeholder="">
+                                </div>
+                                <div class="form-field">
+                                    <label>Region</label>
+                                    <select v-model="server.region">
+                                        <option value="NA">US (North America)</option>
+                                        <option value="EU">EU (Europe)</option>
+                                        <option value="AS">AS (Asia)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-field form-multiple-selection">
+                                    <label>Animals</label>
+                                    <li v-for="animalName in animals">
+                                        <label>
+                                            <input type="checkbox">
+                                            {{animalName}}
+                                        </label>
+                                    </li>
+                                </div>
+
+                                <div class="form-field flex-align" v-show="!loading">
+                                    <p class="pull-left">Create dedicated server for $10.00 with your own settings.</p>
+                                    <button v-on:click="createServer()" class="btn btn-primary">CREATE <i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                                </div>
+
+                                <div class="form-field" v-show="loading">
+                                    <div class="loader loader-center"></div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="wide-thumbnail" v-if="tab == 'Clan' && subtab != 'ClanHub'">
+                <img src="https://assets.tribals.io/News-1.jpg">
+            </div>
+            <div v-if="tab == 'Clan'" class="tab-content">
+                <div class="wide-space" v-if="subtab == 'General'">
+                    <p>{{translate("You don't have tribe or you are not part of any. But you can create your own tribe! Don't forget, you can also go and join clans with interacting tribe flags on the servers!")}}</p>
+                    <button class="btn btn-primary" v-on:click="subtab = 'CreateClan'"><i class="fa fa-plus"></i>{{translate('Create Tribe')}} </button>
+                </div>
+                <div class="wide-space" v-if="subtab == 'CreateClan'">
+                    <p>{{translate('Create your own tribe, design your flag, you can place them in the game!')}}</p>
+                    <form action="javascript:;">
+                        <div class="form-field">
+                            <label>{{translate('Tribe Name')}}</label>
+                            <input v-model="clan.name" maxlength="8" type="text" placeholder="">
+                        </div>
+                        <div class="form-field">
+                            <label>{{translate('Shortname') +' ('+ translate('Slug, for example') + ' : SLN, '+ translate('max 4 char') +'.)' }}</label>
+                            <input v-model="clan.slug" type="text" maxlength="4" placeholder="">
+                        </div>
+                        <div class="form-field">
+                            <label>Logo</label>
+                            <div class="form-logo">
+                                <div id="tribe-logo">
+                                    <div class="layer" :class="clan.logo_color_1_name" :style="{'mask-image' : 'url(' + getImage('Symbol-' + clan.logo_layer_1 + '.png') + ')'}"></div>
+                                    <div class="layer" :class="clan.logo_color_2_name" :style="{'mask-image' : 'url(' + getImage('Symbol-' + clan.logo_layer_2 + '.png') + ')'}"></div>
+                                </div>
+
+                                <div class="select-option">
+                                    <button v-on:click="prevLogo('logo_layer_2')" class="btn "><i class="fa fa-caret-left" aria-hidden="true"></i></button>
+                                    <span><img :src="getImage('Symbol-' + clan.logo_layer_2 + '.png')"> {{translate('Symbol')}} {{clan.logo_layer_2}}</span>
+                                    <button v-on:click="nextLogo('logo_layer_2')" class="btn "><i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                                </div>
+
+                                <div class="select-option">
+                                    <button v-on:click="prevColor('logo_color_2')" class="btn "><i class="fa fa-caret-left" aria-hidden="true"></i></button>
+                                    <span><b :class="clan.logo_color_2_name"></b> {{translate('Color')}}  {{clan.logo_color_2_name}}</span>
+                                    <button v-on:click="prevColor('logo_color_2')" class="btn "><i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                                </div>
+
+                                <div class="select-option">
+                                    <button v-on:click="prevLogo('logo_layer_1')" class="btn "><i class="fa fa-caret-left" aria-hidden="true"></i></button>
+                                    <span><img :src="getImage('Symbol-' + clan.logo_layer_1 + '.png')"> {{translate('Symbol')}} {{clan.logo_layer_1}}</span>
+                                    <button v-on:click="nextLogo('logo_layer_1')" class="btn "><i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                                </div>
+
+                                <div class="select-option">
+                                    <button v-on:click="prevColor('logo_color_1')" class="btn "><i class="fa fa-caret-left" aria-hidden="true"></i></button>
+                                    <span><b :class="clan.logo_color_1_name"></b> {{translate('Color')}} {{clan.logo_color_1_name}}</span>
+                                    <button v-on:click="prevColor('logo_color_1')" class="btn "><i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label>{{translate('Discord Invite Link')}} <small>{{translate('Optional')}}</small></label>
+                            <input v-model="clan.discord" type="text" placeholder="">
+                        </div>
+                        <div 
+                            id="alert" 
+                            v-if="alert.active"
+                            :class="{'alert-danger' : alert.type == 'danger', 'alert-info' : alert.type == 'info'}"
+                        >
+                            <i v-if="alert.type == 'danger'" class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
+                            <i v-if="alert.type == 'info'" class="fa fa-exclamation-circle" aria-hidden="true"></i> 
+                            {{alert.message}}
+                        </div>
+
+                        <div class="form-field flex-align" v-show="!loading">
+                            <button v-on:click="createClan()" class="btn btn-primary">{{translate('Create')}} <i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                        </div>
+
+                        <div class="form-field" v-show="loading">
+                            <div class="loader loader-center"></div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div id="clan-hub" v-if="subtab == 'ClanHub'">
+                    <div class="subtab">
+                        <ul>
+                            <li v-for="item in clanTabs" 
+                                :class="{'active' : clan.tab == item.name}" 
+                                v-on:click="clan.tab = item.name">
+                                    <span class="icon-container">
+                                        <i class="fa" :class="item.icon" aria-hidden="true"></i>
+                                    </span> 
+                                    {{translate(item.name)}}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div v-if="clan.tab == 'Hub'" class="sub-wrapper">
+                        <div class="clan-header">
+                            <logo class="logo" :clan="clan"></logo>
+                            <h1><span class="slug">[{{clan.slug}}]</span> {{clan.name}}</h1>
+                            <p><i class="fa fa-users" aria-hidden="true"></i> {{clan.owner}} ({{translate('Owner')}})</p>
+
+                            <a v-if="clan.discord" class="discord-link" target="_blank" :href="clan.discord"><i class="fab fa-discord"></i> Discord</a>
+                        </div>
+
+                        <div 
+                            id="alert" 
+                            class="alert-danger"
+                            v-if="clan.has_member_requests > 0"
+                        >
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i> 
+                            {{translate('You have member clan requests, please go "Members" area to review.')}}
+                        </div>
+
+                        <table class="table clan-members-table">
+                            <tr>
+                                <th>#</th>
+                                <th> {{translate('Member')}}</th>
+                            </tr>
+                            <tr v-for="(member, index) in clan.members" v-if="member.approved">
+                                <td>
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                </td>
+                                <td>{{index + 1}}. {{member.username}} <small v-if="member.is_owner">({{translate('Owner')}})</small></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div v-if="clan.tab == 'Members'" class="sub-wrapper">
+                        <div 
+                            id="alert" 
+                            v-if="alert.active"
+                            :class="{'alert-danger' : alert.type == 'danger', 'alert-info' : alert.type == 'info'}"
+                        >
+                            <i v-if="alert.type == 'danger'" class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
+                            <i v-if="alert.type == 'info'" class="fa fa-exclamation-circle" aria-hidden="true"></i> 
+                            {{alert.message}}
+                        </div>
+
+                        <p>
+                             {{translate('You can place flags around your base to accept members to your clan!')}}
+                        </p>
+
+                        <table class="table clan-members-table">
+                            <tr>
+                                <th>#</th>
+                                <th>{{translate('Member')}}</th>
+                                <th>{{translate('Actions')}}</th>
+                            </tr>
+                            <tr v-for="(member, index) in clan.members">
+                                <td>
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                </td>
+                                <td>{{index + 1}}. {{member.username}} <small v-if="member.is_owner">({{translate('Owner')}})</small></td>
+                                <td>
+                                    <span v-if="member.approved != '1'">
+                                        <button v-on:click="acceptRequest(member)" class="btn-table">{{translate('Accept')}} <i class="fa fa-check" aria-hidden="true"></i></button>
+                                        <button v-on:click="kickMember(member)" class="btn-table btn-table-danger">{{translate('Decline')}} <i class="fa fa-times" aria-hidden="true"></i></button>
+                                    </span>
+                                    <button v-if="member.approved == '1' && !member.is_owner" v-on:click="kickMember(member)" class="btn-table btn-table-danger">{{translate('Kick')}} <i class="fa fa-times" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div v-if="clan.tab == 'Settings'" class="sub-wrapper">
+                        <div v-if="!clan.is_owner">
+                            <p>{{translate('You can leave the clan any time you want.')}}</p>
+
+                            <div class="form-field flex-align">
+                                <button v-on:click="leaveClan()" class="btn btn-cancel">{{translate('Leave Tribe')}} <i class="fa fa-times" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                        <div v-if="clan.is_owner">
+                            <form action="javascript:;">
+                                <div 
+                                    id="alert" 
+                                    v-if="alert.active"
+                                    :class="{'alert-danger' : alert.type == 'danger', 'alert-info' : alert.type == 'info'}"
+                                >
+                                    <i v-if="alert.type == 'danger'" class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
+                                    <i v-if="alert.type == 'info'" class="fa fa-exclamation-circle" aria-hidden="true"></i> 
+                                    {{alert.message}}
+                                </div>
+
+                                <div class="form-field">
+                                    <label>{{translate('Discord Invite Link')}}</label>
+                                    <input v-model="clan.discord" maxlength="128" type="text" placeholder="">
+                                </div>
+
+                                <div class="form-field flex-align" v-show="!loading">
+                                    <button v-on:click="updateClan()" class="btn btn-primary">{{translate('Update')}} <i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                                </div>
+
+                                <div class="form-field" v-show="loading">
+                                    <div class="loader loader-center"></div>
+                                </div>
+                            </form>
+
+                            <p>{{translate("If you want to delete clan, that's possible. You can delete your clan and join another clan. This action is irreversible.")}}</p>
+
+                            <div class="form-field flex-align">
+                                <button v-on:click="deleteClan()" class="btn btn-danger">{{translate('Delete Clan')}} <i class="fa fa-times" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div v-if="tab == 'Settings'" class="tab-content">
+                <div 
+                    id="alert" 
+                    v-if="alert.active"
+                    :class="{'alert-danger' : alert.type == 'danger', 'alert-info' : alert.type == 'info'}"
+                >
+                    <i v-if="alert.type == 'danger'" class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
+                    <i v-if="alert.type == 'info'" class="fa fa-exclamation-circle" aria-hidden="true"></i> 
+                    {{alert.message}}
+                </div>
+
+                <div class="form-field">
+                    <label>{{translate('Email')}}</label>
+                    <input v-model="form.email" type="email" placeholder="">
+                    <span>{{translate('This field is not required, but you can enter an email address to recover your account.')}}</span>
+                </div>
+
+                <div class="form-field">
+                    <label>{{translate('New Password')}}</label>
+                    <input v-model="form.new_password" type="password" placeholder="">
+                </div>
+                
+                <div class="form-field" v-show="!loading">
+                    <button v-on:click="setProfileDetails()" class="btn btn-primary">{{translate('Update')}} <i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                </div>
+                
+                <div class="field-wrap">
+                    <div class="field row-field">
+                        <p>{{translate('You can connect your discord account to get instant notifications!')}}</p>
+                        <button class="btn btn-primary" v-on:click="connectDiscord()"><i class="fab fa-discord"></i> {{translate('Connect with Discord')}}</button>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div v-if="tab == 'Discord'" class="tab-content">
+                <p>{{translate('You can connect your discord account to get instant notifications!')}}</p>
+                <button class="btn btn-primary" v-on:click="connectDiscord()"><i class="fab fa-discord"></i> {{translate('Connect with Discord')}}</button>
+            </div>-->
+        </div>
+    </div>
+
+    <div id="content-banner-area">
+        <div id="centered-banner">
+            <p v-if="adblockWarning">Please disable adblock to support us 🙏🏻</p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,388 @@
+@import "Common.css";
+@import "MobileCommon.css";
+
+img, button {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+#mini-logo{
+    position: absolute;
+    left: 50px;
+    top: 50px;
+    width: 15vw;
+    cursor: pointer;
+}
+
+#customization{
+    position:absolute;
+    width: 400px;
+    background:rgba(0, 0, 0, 0.5);
+    right: 50px;
+    top: 50%;
+    transform: translate(0%, -50%);
+    padding: 20px;
+    box-sizing:content-box;
+    border-radius: 5px;
+}
+
+#customization h1{
+    color: #fff;
+    margin: 0px;
+    padding: 0px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    text-transform: uppercase;
+    height: 6vh;
+}
+
+#customization-scroll{
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 50vh;
+    position: relative;
+}
+
+#customization-bottom{
+    margin-top: 10px;
+}
+
+.submit-button{
+    background: rgb(66,137,72);
+    background: linear-gradient(0deg, rgb(36 109 42) 0%, rgb(78 201 11) 90%);
+    font-family: "Passion One";
+    color: #fff;
+    font-size: 40px;
+    height: 70px;
+    line-height: 35px;
+    text-shadow: 0px 1px 2px rgb(83 102 79);
+    border-radius: 4px;
+    float: right;
+    border: none;
+    width: 250px;
+    border-left: solid 8px rgb(85 135 47);
+    cursor: pointer;
+}
+
+.submit-button:hover{
+    opacity: 0.9;
+}
+
+.field{
+    width: calc(100% - 10px);
+    background: rgba(80, 80, 80, 0.5);
+    color: #fff;
+    border-radius: 4px;
+    height: 50px;
+    border-left: solid 5px rgb(80, 80, 80);
+    margin-bottom: 10px;
+}
+
+.field:hover{
+    background: rgba(80, 80, 80, 0.8);
+}
+
+.field label{
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 50px;
+    float: left;
+    width: 30%;
+    text-align: left;
+    box-sizing: border-box;
+    padding-left: 20px;
+}
+
+.field .selection{
+    width: 70%;
+    float: left;
+    line-height: 50px;
+    height: 50px;
+    display: block;
+    box-sizing: border-box;
+    padding-right: 10px;
+}
+
+.field input{
+    float: right;
+    height: 50px;
+    width: 200px;
+    margin-right: 20px;
+}
+
+.field .selection .current{
+    float: left;
+}
+
+.field .selection .button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    text-align: center;
+    background-color: rgb(119, 165, 33);
+    border-top: solid 2px #84cc43;
+    border-bottom: solid 2px #518034;
+    float: right;
+    margin-left: 10px;
+    margin-top: 5px;
+    font-size: 23px;
+    text-shadow: 0px 1px 2px #000;
+    font-weight: bold;
+    box-shadow: 0px 0px 10px #3a9f3d;
+    cursor: pointer;
+    opacity: 1.0;
+    transform: scale(1.0);
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.field .selection .button:hover{
+    opacity: 0.9;
+}
+
+.field .selection .button:active{
+    transform: scale(0.9);
+}
+
+.needs-validation{
+    position: relative;
+    left: 50%;
+    box-shadow: 0px 0px 50px rgb(255, 145, 0);
+    animation: shake 0.08s ease-out;
+    animation-iteration-count: 8;
+}
+
+@keyframes shake{
+    0%{
+        transform: translate(-50%, 0%);
+    }
+    
+    33%{
+        transform: translate(-45%, 0%);
+    }
+
+    66%{
+        transform: translate(-55%, 0%);
+    }
+
+    100%{
+        transform: translate(-50%, 0%);
+    }
+}
+
+.character-username{
+    margin-bottom: 25px;
+    border: solid 2px #666;
+    background-color: rgb(29, 29, 29);
+    color: #fff;
+    font-size: 20px;
+    border-radius: 5px;
+    height: 10vh;
+    overflow: hidden;
+}
+
+.character-username .username{
+    float: left;
+    width: 220px;
+    line-height: 10vh;
+    font-size: 20px;
+    display: block;
+    height: 10vh;
+    padding-left: 20px;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.character-username .login-button{
+    float: right;
+    width: 150px;
+    height: 10vh;
+    background: rgb(44,128,172);
+    background: linear-gradient(0deg, rgba(44,128,172,1) 0%, rgba(39,142,214,1) 90%);
+    font-family: "Passion One";
+    color: #fff;
+    text-shadow: 0px 1px 2px rgb(60, 75, 82);
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#customization-locked{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 50px);
+    height: 50vh;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    text-align: center;
+    font-size: 20px;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+#customization-locked .fa{
+    font-size: 50px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.server-details{
+    color: #fff;
+    float: left;
+    padding: 10px;
+}
+
+.server-details label{
+    font-weight: bold;
+    display: block;
+}
+
+
+@media only screen and (max-width: 900px){
+    body{
+        --scale : 1!important;
+    }
+}
+
+/* ================ Mobile Devices ================ */
+
+@media only screen and (max-width: 900px){
+    body{
+        --scale : 1!important;
+    }
+}
+
+.mobile #mini-logo {
+    left: 40px;
+    top: 30px;
+    width: 150px;
+}
+
+.mobile #customization-wrapper{
+    zoom: 1!important;
+}
+
+.mobile #customization{
+    width: 280px;
+    top: 53%;
+    height: 78vh;
+    right: 30px;
+    padding: 15px;
+}
+.mobile #customization h1{
+    height: initial;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.mobile #customization-scroll{
+    height: 45vh;
+}
+
+.mobile .character-username{
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 300px;
+    height: 10vh;
+    left: -30vw;
+    transform: translate(-50%, 0);
+    bottom: 45px;
+    margin: 0;
+    box-sizing:border-box;
+}
+
+.mobile .character-username .username{
+    font-size: 20px;
+}
+
+.mobile .character-username,
+.mobile .character-username .login-button,
+.mobile #customization-locked{
+    font-size: 16px;
+    line-height: 1;
+}
+
+.mobile #customization-locked{
+    width: calc(100% - 30px);
+    height: 45.5vh;
+}   
+
+.mobile #customization-locked .fa{
+    font-size: 22px;
+}
+
+.mobile #customization-bottom{
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile .server-details{
+    width: 100%;
+    font-size: 15px;
+    padding: 0 0 10px 0;
+}
+
+.mobile .server-details label{
+    display: inline-block;
+}
+
+.mobile .submit-button{
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    justify-content: center;
+    font-size: 23px;
+    line-height: 1;
+    width: 100%;
+    height: 45px;
+}
+
+    .mobile .submit-button i{
+        margin-left: 5px;
+    }
+
+.mobile .field{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.mobile .field label{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
+    .mobile #customization{
+        height: 95vw;
+        top: 55%;
+    }
+
+    .mobile #customization-scroll{
+        height: 59vw;
+    }
+
+    .mobile #customization-locked{
+        height: 59.5vw;
+    }
+
+    .mobile .character-username{
+        width: 280px;
+        height: 10vw;
+        left: -25vh;
+    }
+}

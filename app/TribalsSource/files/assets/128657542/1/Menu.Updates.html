@@ -1,0 +1,17 @@
+<div v-if="popup.page == 'Updates'" class="popup">
+    <div class="popup-header">
+        New Update - Version {{version}}
+        <a v-on:click="closePopup()" href="javascript:;" class="popup-close"><i class="fa fa-times" aria-hidden="true"></i></a>
+    </div>
+
+    <div class="popup-content">
+        <ul v-if="popup.content">
+            <li v-for="item in popup.content">{{item}}</li>
+        </ul>
+    </div>
+
+    
+    <div class="popup-bottom-content">
+        <a target="_blank" class="btn btn-primary" href="https://discord.gg/TyRu47mHzF"><i class="fab fa-discord"></i> Join Community</a>
+    </div>
+</div>
