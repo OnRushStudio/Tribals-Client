@@ -26,6 +26,15 @@ launchArgs.pushArguments()
 
 app.allowRendererProcessReuse = true;
 
+const express = require('express');
+const expressapp = express();
+
+expressapp.use(express.static(path.join(__dirname, 'TribalsSource')));
+
+expressapp.listen(3000, function () {
+  console.log('App listening on port 3000!');
+});
+
 protocol.registerSchemesAsPrivileged([{
     scheme: "swap",
     privileges: {
@@ -63,7 +72,7 @@ class Client {
 
         this.win.removeMenu()
         this.win.setFullScreen(userPrefs.get('fullscreenMode'))
-        this.win.loadURL('https://tribals.io')
+        this.win.loadURL('http://localhost:3000/')
             .catch((error) => console.log(error))
 
         this.win.on('ready-to-show', () => {
