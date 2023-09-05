@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     </style>
     <div id="sidebar">
-    <div id="blur-cont"></div>
         <div style="padding-bottom: 1.5rem; padding-top: 1.5rem; font-size: 1.5rem;"> Client Settings </div>
         <hr>
         <div id="clientContent"></div>
@@ -79,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
+                console.log(node.id)
                 if (node.id == "menu" || node.id == "play-section") {
                     if (!document.getElementById("closeClientBtn")) {
                         let menuCont = document.querySelector("#social-links");
@@ -130,6 +130,22 @@ document.addEventListener('DOMContentLoaded', () => {
                             // }
                         }
                     }
+                }
+                if (node.id == "account-wrapper") {
+                    document.querySelector("#content > div.login-register-wrapper > form > div.form-field.username-field > label").style.height = '10px'
+
+                    var styleElement = document.createElement('style');
+
+                    var cssCode = `
+                    .form-field input {
+                        top: 1.5rem;
+                        left: -0.5rem;
+                        position: relative;
+                    }
+                    `;
+
+                    styleElement.innerHTML = cssCode;
+                    document.head.appendChild(styleElement);
                 }
             });
         });
