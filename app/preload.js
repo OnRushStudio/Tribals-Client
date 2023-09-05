@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
                 if (node.id == "account-wrapper") {
-                    document.querySelector("#content > div.login-register-wrapper > form > div.form-field.username-field > label").style.height = '10px'
+                    document.querySelector("#content > div.login-register-wrapper > div.form-field.username-field > label").style.height = '10px'
 
                     var styleElement = document.createElement('style');
 
