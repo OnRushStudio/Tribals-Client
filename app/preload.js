@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     </style>
     <div id="sidebar">
-    <div id="blur-cont"></div>
         <div style="padding-bottom: 1.5rem; padding-top: 1.5rem; font-size: 1.5rem;"> Client Settings </div>
         <hr>
         <div id="clientContent"></div>
@@ -79,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
+                console.log(node.id)
                 if (node.id == "menu" || node.id == "play-section") {
                     if (!document.getElementById("closeClientBtn")) {
                         let menuCont = document.querySelector("#social-links");
