@@ -123,13 +123,24 @@ document.addEventListener('DOMContentLoaded', () => {
                                     document.body.removeChild(linkDiv)
                                 }
                             }
-                            // if (clipboard.readText().includes("tribals.io")) {
-                            //     window.location.href = clipboard.readText()
-                            // } else {
-                            //     alert('No valid link found on clipboard')
-                            // }
                         }
                     }
+                }
+                if (node.id == "account-wrapper") {
+                    document.querySelector("#content > div.login-register-wrapper > form > div.form-field.username-field > label").style.height = '10px'
+
+                    var styleElement = document.createElement('style');
+
+                    var cssCode = `
+                    .form-field input {
+                        top: 1.5rem;
+                        left: -0.5rem;
+                        position: relative;
+                    }
+                    `;
+
+                    styleElement.innerHTML = cssCode;
+                    document.head.appendChild(styleElement);
                 }
             });
         });
