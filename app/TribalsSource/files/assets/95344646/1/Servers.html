@@ -59,6 +59,10 @@
                                     {{translate('Server')}} 
                                     <i v-if="sortBy == 'name'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
                                 </th>
+                                <th v-on:click="sort('gameMode')">
+                                    {{translate('Game Mode')}}
+                                    <i v-if="sortBy == 'gameMode'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
+                                </th>
                                 <th v-on:click="sort('region')">
                                     {{translate('Region')}} 
                                     <i v-if="sortBy == 'region'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
@@ -72,6 +76,7 @@
                                     {{translate('Last Join Time')}}
                                     <i v-if="sortBy == 'lastJoin'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
                                 </th>
+                                
                                 <th width="100">{{translate('Transfer')}}</th>
                                 <th width="50">{{translate('Connect')}}</th>
                             </tr>
@@ -83,6 +88,7 @@
                                     </span>
                                 </td>
                                 <td>{{server.name}}</td>
+                                <td>{{server.gamemode}}</td>
                                 <td>{{server.region}}</td>
                                 <td>{{server.players}} / {{server.maxPlayers}}</td>
                                 <td class="password">
@@ -102,13 +108,17 @@
                         </table>
                     </div>
 
-                    <div class="content" v-if="tab == 'MyServers'">
+                    <div class="content" v-if="tab == 'Community'">
                         <table id="myTable" class="table">
                             <tr class="sort-header">
                                 <th>#</th>
                                 <th v-on:click="sort('name')">
                                     {{translate('Server')}} 
                                     <i v-if="sortBy == 'name'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
+                                </th>
+                                <th v-on:click="sort('gameMode')">
+                                    {{translate('Game Mode')}}
+                                    <i v-if="sortBy == 'gameMode'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
                                 </th>
                                 <th v-on:click="sort('region')">
                                     {{translate('Region')}} 
@@ -118,15 +128,15 @@
                                     {{translate('Players')}} 
                                     <i v-if="sortBy == 'players'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
                                 </th>
-                                <th v-on:click="sort('upTime')">
+                                <!-- <th v-on:click="sort('upTime')">
                                     {{translate('Up Time')}}
                                     <i v-if="sortBy == 'upTime'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
-                                </th>
+                                </th> -->
                                 <th v-on:click="sort('lastJoin')">
                                     {{translate('Last Join Time')}}
                                     <i v-if="sortBy == 'lastJoin'" class="fa" :class="{'fa-caret-down' : sortByAscent, 'fa-caret-up' : !sortByAscent}" aria-hidden="true"></i>
                                 </th>
-                                <th>{{translate('Actions')}}</th>
+                                <!-- <th>{{translate('Actions')}}</th> -->
                             </tr>
                             <tr v-for="server in filter(servers)">
                                 <td>
@@ -136,9 +146,10 @@
                                     </span>
                                 </td>
                                 <td>{{server.name}}</td>
+                                <td>{{server.gamemode}}</td>
                                 <td>{{server.region}}</td>
                                 <td>{{server.players}} / {{server.maxPlayers}}</td>
-                                <td>{{number(server.progress / (1000 * 60))}}m</td>
+                                <!-- <td>{{number(server.progress / (1000 * 60))}}m</td> -->
                                 <td>{{server.lastJoin}}</td>
                                 <td>
                                     <button v-on:click="connect(server.hash)" class="btn-table">{{translate('Connect')}} <i class="fa fa-sign-in" aria-hidden="true"></i></button>
@@ -147,15 +158,16 @@
                         </table>
                     </div>
 
-                    <div class="content" v-if="tab == 'Community'">
+                    <div class="content" v-if="tab == 'tt'">
                         <table class="table">
                             <tr>
                                 <th>#</th>
                                 <th> {{translate('Server')}} </th>
+                                <td> {{translate('Game Mode')}} </td>
                                 <th> {{translate('Region')}} </th>
                                 <th> {{translate('Players')}} </th>
                                 <th> {{translate('Password')}} </th>
-                                <th> {{translate('Up Time')}} </th>
+                                <!-- <th> {{translate('Up Time')}} </th> -->
                                 <th> {{translate('Last Join Time')}} </th>
                                 <th> {{translate('Actions')}} </th>
                             </tr>
@@ -177,6 +189,7 @@
                                 </td>
                                 <td>{{number(server.upTime / (1000 * 60))}}m</td>
                                 <td>{{server.lastJoin}}</td>
+                                <td>{{server.gamemode}}</td>
                                 <td>
                                     <button v-on:click="connect(server.hash)" class="btn-table">{{translate('CONNECT')}} <i class="fa fa-sign-in" aria-hidden="true"></i></button>
                                 </td>

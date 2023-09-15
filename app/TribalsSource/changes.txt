@@ -1,5 +1,31 @@
 ## Changes
 
+## 1.1.22 - 14 Sep 2023
+- IronFragment & CookedSulfur added.
+- Iron stack changed from 100 to 1,000.
+- IronPickaxe multiplier increased a little bit to further the gap between StonePickaxe and IronPickaxe.
+- Different crafting times added to WorkBench.
+- IronBar added into WorkBench, crafting 1 IronBar with 5 IronFragments.
+- IronBar placed in Smelters will be smelted down into IronFragments, the ratio is 1 IronBar -> 2 IronFragments
+- Pistol craft increase to 35 IronBar and 65 Wood.
+- Musket craft increase to 65 IronBar and 100 Wood.
+- Lots of other tools/buildings crafting recipes changed to IronFragments from IronBar
+- When you list an item in the VendingMachine, it no longer leaves the sell page when you list the item. (Makes listing lots of items faster)
+- Notes contents disappearing when dropped fixed.
+- Smelter wood consumption changed to 1 wood every 1 second.
+- Lock cooldown improved, and you now take 5 damage when you guess a lock code wrong.
+- When you die, you now drop a Backpack (It's a storagebox model for now) instead of sacks. You will also be able to see the name of who you killed when you open the Backpack.
+- You can now upgrade different buildings. BigStorage and Storage boxes now have 3 tiers that increase their max durability for different materials to make raiding them harder! Use the upgradehammer on them.
+- Smelter now turns off if the items being melted cannot be pushed into the smelter (Charcoal not included so you can still smelt 3 things at a time, you just wont get any charcoal)
+- Removed FoodGarbage to make cooking food easier.
+- Musket durability changed to 500 and the damage done to buildings increased to 30. This means it does 1,000 damage per minute to buildings if you constantly shoot it.
+- Pistol durability changed to 350 and the damage done to buildings increased to 25. This means it does 882 damage per minute to buildings if you constantly shoot it.
+- QuickMove has been Improved. You now have a new Keybind that you can hold when hovering over slots to quickly move them from one inventory to another. Make sure you press and hold the key and drag your mouse over the slots!
+- All servers now show in the Find Server list, a lot more show up under the Community Tab now!
+- ShipWreck collisions improved more.
+- Known dupe fixed.
+- Buildings disappearing after respawn fixed.
+
 ## 1.1.21 - 19 Aug 2023
 - Tradebox sell limit increase to 5,000
 - Party UI implemented (Command removed)

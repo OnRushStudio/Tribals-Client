@@ -724,7 +724,7 @@
                             <td>
                                 <img :src="getImage(item.icon)">
                             </td>
-                            <td>{{item.name}}</td>
+                            <td><span v-html="formatListingName(item.item)"></span></td>
                             <td><span v-html="formatCraftRecipe(item.craft)"></span></td>
                             <td>
                                 <button v-on:click="selectListing(item)" class="button">
@@ -786,7 +786,7 @@
                         <div class="listing-button-wrap" v-if="activeActor.isOwner">
                             <span v-on:click="actorTrigger('openCase'); actorTab = 'Case';" class="button pull-right"><i class="fa fa-inbox" aria-hidden="true"></i> {{translate('Safe')}}</span>
                             <span v-on:click="actorTrigger('modifyText')" class="button pull-right"><i class="fa fa-pencil" aria-hidden="true"></i> {{translate('Update Text')}} </span>
-                            <span v-on:click="actorTab = 'Sell'; actorForm.item = activeActor.currency[0];" class="button pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{translate('Sell Item')}}</span>
+                            <span v-on:click="setActorTab('Sell'); actorForm.item = activeActor.currency[0];" class="button pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{translate('Sell Item')}}</span>
                         </div>
                         <div class="section-title">{{translate('Listings')}} </div>
 
