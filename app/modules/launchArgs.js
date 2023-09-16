@@ -36,10 +36,11 @@ class launchArgs {
         app.commandLine.appendSwitch('webrtc-max-cpu-consumption-percentage', '100');
         app.commandLine.appendSwitch('ignore-gpu-blacklist');
 
-        // GPU Ras
-        app.commandLine.appendSwitch('enable-gpu-rasterization');
-        app.commandLine.appendSwitch('enable-oop-rasterization');
-        app.commandLine.appendSwitch('disable-zero-copy');
+        if (userPrefs.get('gpuRasterization')) {
+            app.commandLine.appendSwitch('enable-gpu-rasterization');
+            app.commandLine.appendSwitch('enable-oop-rasterization');
+            app.commandLine.appendSwitch('disable-zero-copy');
+        }
 
         if (userPrefs.get('lowlatency')) {
             app.commandLine.appendSwitch('enable-highres-timer');

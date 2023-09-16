@@ -23,5 +23,15 @@
         "type": "checkbox",
         "text": "Low Latency Mode *",
         "default": false
+    },
+    "gpuRasterization": {
+        "type": "checkbox",
+        "text": "GPU Rasterization *",
+        "default": true
+    },
+    "fullscreenMode": {
+        "type": "checkbox",
+        "text": "Fullscreen Mode *",
+        "default": true
     }
 }

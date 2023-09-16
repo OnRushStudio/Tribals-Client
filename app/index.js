@@ -12,6 +12,7 @@ const userPrefs = new Store({
         disableAdvertisements: true,
         experimentalFlags: false,
         lowLatency: false,
+        gpuRasterization: true
     }
 })
 
