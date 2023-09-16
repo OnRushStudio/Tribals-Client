@@ -6,7 +6,7 @@ class launchArgs {
     static pushArguments() {
         app.commandLine.appendSwitch('in-process-gpu');
 
-        //Remove Useless
+        // Remove Useless
         app.commandLine.appendSwitch('disable-breakpad');
         app.commandLine.appendSwitch('disable-print-preview');
         app.commandLine.appendSwitch('disable-metrics-repo');
@@ -18,7 +18,7 @@ class launchArgs {
         app.commandLine.appendSwitch('disable-component-update');
         if (process.platform === 'darwin') app.commandLine.appendSwitch('disable-dev-shm-usage');
 
-        //Helpful Flags
+        // Helpful Flags
         app.commandLine.appendSwitch('enable-javascript-harmony');
         app.commandLine.appendSwitch('enable-future-v8-vm-features');
         app.commandLine.appendSwitch('enable-webgl');
@@ -30,7 +30,7 @@ class launchArgs {
         app.commandLine.appendSwitch('disable-background-timer-throttling')
         app.commandLine.appendSwitch('disable-notifications')
 
-        //Limit Increase
+        // Limit Increase
         app.commandLine.appendSwitch('renderer-process-limit', '100');
         app.commandLine.appendSwitch('max-active-webgl-contexts', '100');
         app.commandLine.appendSwitch('webrtc-max-cpu-consumption-percentage', '100');

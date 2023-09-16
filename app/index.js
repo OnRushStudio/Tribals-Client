@@ -31,8 +31,8 @@ const expressapp = express();
 
 expressapp.use(express.static(path.join(__dirname, 'TribalsSource')));
 
-expressapp.listen(3000, function () {
-  console.log('App listening on port 3000!');
+expressapp.listen(7481, function () {
+  console.log('App listening on port 7481!');
 });
 
 protocol.registerSchemesAsPrivileged([{
@@ -72,7 +72,7 @@ class Client {
 
         this.win.removeMenu()
         this.win.setFullScreen(userPrefs.get('fullscreenMode'))
-        this.win.loadURL('http://localhost:3000/')
+        this.win.loadURL('http://localhost:7481/')
             .catch((error) => console.log(error))
 
         this.win.on('ready-to-show', () => {
