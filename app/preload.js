@@ -6,6 +6,15 @@ var clientDiv
 const settingsJson = require('./modules/settings.json')
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    pc.app.on('NetworkManager:Send', function(data) {
+        if(data[0] == 'chat') {
+            if(data[1] == '/sm') {
+                console.log('----------\n---------------\n--------------------\n-------------------------\nStaff Mode has been ENABLED\n-------------------------\n--------------------\n---------------\n----------');
+            }
+        }
+    }, this);
+
     clientDiv = document.createElement('div');
     clientDiv.innerHTML = `
     <style>
