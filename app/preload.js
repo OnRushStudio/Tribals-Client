@@ -6,14 +6,72 @@ var clientDiv
 const settingsJson = require('./modules/settings.json')
 
 document.addEventListener('DOMContentLoaded', () => {
+    var staffMode = false;
+    var flying = false;
+    var flyStart = 0;
+    var lastSpaceTime = 0;
+
+    pc.app.keyboard.on('keydown', function(event) {
+        if(event.key == pc.KEY_SPACE){
+            if(Date.now() - lastSpaceTime < 500) {
+                lastSpaceTime = Date.now();
+                if(staffMode && Date.now() - flyStart > 1000) {
+                    toggleFly();
+                }
+            } else {
+                lastSpaceTime = Date.now();
+            }
+        }
+
+        if(event.key == pc.KEY_SHIFT && flying) {
+            pc.Movement.speed = 2000;
+        }
+    });
+
+    pc.app.keyboard.on('keyup', function(event) {
+        if(event.key == pc.KEY_SHIFT && flying) {
+            pc.Movement.speed = 1000;
+        }
+    });
+
+    function toggleFly(){
+        if(flying) {
+            flying = false;
+            pc.Movement.activeLadders.splice(pc.Movement.activeLadders.indexOf('staff'), 1);
+            pc.Movement.speed = 230;
+        } else {
+            flying = true;
+            pc.Movement.activeLadders.push('staff');
+            if(pc.app.keyboard.isPressed(pc.KEY_SHIFT)) pc.Movement.speed = 2000
+            else pc.Movement.speed = 1000;
+            flyStart = Date.now();
+        }
+    }
 
     pc.app.on('NetworkManager:Send', function(data) {
         if(data[0] == 'chat') {
+
             if(data[1] == '/sm') {
-                console.log('----------\n---------------\n--------------------\n-------------------------\nStaff Mode has been ENABLED\n-------------------------\n--------------------\n---------------\n----------');
+                staffMode = !staffMode;
+                if(!staffMode) {
+                    if(flying) toggleFly();
+                }
+            }
+
+        }
+    });
+
+    pc.app.on('Overlay:Chat', function(username, message, argument, sound) {
+        if(username == 'Server') {
+            if(message == 'Staff mode enabled.') {
+                staffMode = true;
+            }
+            if(message == 'Staff mode disabled.') {
+                staffMode = false;
+                if(flying) toggleFly();
             }
         }
-    }, this);
+    });
 
     clientDiv = document.createElement('div');
     clientDiv.innerHTML = `
