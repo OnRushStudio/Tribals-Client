@@ -11,11 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     var flyStart = 0;
     var lastSpaceTime = 0;
 
-    pc.app.keyboard.on('keydown', function(event) {
-        if(event.key == pc.KEY_SPACE){
-            if(Date.now() - lastSpaceTime < 500) {
+    pc.app.keyboard.on('keydown', function (event) {
+        if (event.key == pc.KEY_SPACE) {
+            if (Date.now() - lastSpaceTime < 500) {
                 lastSpaceTime = Date.now();
-                if(staffMode && Date.now() - flyStart > 1000) {
+                if (staffMode && Date.now() - flyStart > 1000) {
                     toggleFly();
                 }
             } else {
@@ -23,52 +23,52 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        if(event.key == pc.KEY_SHIFT && flying) {
+        if (event.key == pc.KEY_SHIFT && flying) {
             pc.Movement.speed = 2000;
         }
     });
 
-    pc.app.keyboard.on('keyup', function(event) {
-        if(event.key == pc.KEY_SHIFT && flying) {
+    pc.app.keyboard.on('keyup', function (event) {
+        if (event.key == pc.KEY_SHIFT && flying) {
             pc.Movement.speed = 1000;
         }
     });
 
-    function toggleFly(){
-        if(flying) {
+    function toggleFly() {
+        if (flying) {
             flying = false;
             pc.Movement.activeLadders.splice(pc.Movement.activeLadders.indexOf('staff'), 1);
             pc.Movement.speed = 230;
         } else {
             flying = true;
             pc.Movement.activeLadders.push('staff');
-            if(pc.app.keyboard.isPressed(pc.KEY_SHIFT)) pc.Movement.speed = 2000
+            if (pc.app.keyboard.isPressed(pc.KEY_SHIFT)) pc.Movement.speed = 2000
             else pc.Movement.speed = 1000;
             flyStart = Date.now();
         }
     }
 
-    pc.app.on('NetworkManager:Send', function(data) {
-        if(data[0] == 'chat') {
+    pc.app.on('NetworkManager:Send', function (data) {
+        if (data[0] == 'chat') {
 
-            if(data[1] == '/sm') {
+            if (data[1] == '/sm') {
                 staffMode = !staffMode;
-                if(!staffMode) {
-                    if(flying) toggleFly();
+                if (!staffMode) {
+                    if (flying) toggleFly();
                 }
             }
 
         }
     });
 
-    pc.app.on('Overlay:Chat', function(username, message, argument, sound) {
-        if(username == 'Server') {
-            if(message == 'Staff mode enabled.') {
+    pc.app.on('Overlay:Chat', function (username, message, argument, sound) {
+        if (username == 'Server') {
+            if (message == 'Staff mode enabled.') {
                 staffMode = true;
             }
-            if(message == 'Staff mode disabled.') {
+            if (message == 'Staff mode disabled.') {
                 staffMode = false;
-                if(flying) toggleFly();
+                if (flying) toggleFly();
             }
         }
     });
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         joinLink.innerHTML = `
                         <button class="invite-button" style="background:linear-gradient(to bottom, rgb(255,165,0), rgb(190,123,0)); border-left: solid 8px rgb(170,110,0)" id="JoinBtn">
                             <i aria-hidden="true" class="fa fa-link">
-                        </i> Join Link</button>
+                        </i> Join Game</button>
                         `
                         let contDiv = document.querySelector("#play-section")
                         contDiv.insertBefore(joinLink, contDiv.children[1])
@@ -183,7 +183,15 @@ document.addEventListener('DOMContentLoaded', () => {
                                 document.body.appendChild(linkDiv)
                                 document.getElementById('linkBtn').onclick = () => {
                                     if (document.getElementById('linkInput').value.includes("tribals.io")) {
-                                        window.location.href = clipboard.readText().replace("https://tribals.io", "http://localhost:7481")
+                                        let link = clipboard.readText().split('#');
+                                        let roomhash = link[1]
+
+                                        window.localStorage.setItem('serverHash', roomhash);
+
+                                        window.location.hash = roomhash;
+                                        pc.app.fire('Scene:Load', 'CharacterCustomization');
+
+                                        document.body.removeChild(linkDiv)
                                     }
                                 }
                                 document.getElementById('linkClose').onclick = () => {
