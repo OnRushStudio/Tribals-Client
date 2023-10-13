@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 document.body.appendChild(linkDiv)
                                 document.getElementById('linkBtn').onclick = () => {
                                     if (document.getElementById('linkInput').value.includes("tribals.io")) {
-                                        window.location.href = clipboard.readText()
+                                        window.location.href = clipboard.readText().replace("https://tribals.io", "http://localhost:7481")
                                     }
                                 }
                                 document.getElementById('linkClose').onclick = () => {
