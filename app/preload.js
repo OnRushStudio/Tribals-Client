@@ -142,6 +142,12 @@ document.addEventListener('DOMContentLoaded', () => {
         `
     })
 
+    Object.keys(settingsJson).forEach((setting) => {
+        document.getElementById(setting).onclick = () => {
+            userPrefs.set(setting, document.getElementById(setting).checked)
+        }
+    })
+
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
