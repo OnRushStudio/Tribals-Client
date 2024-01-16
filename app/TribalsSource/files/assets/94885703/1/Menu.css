@@ -3,6 +3,7 @@
 @import "Banners.css";
 @import "Popup.css";
 @import "Table.css";
+@import "Subscription.css";
 
 .portrait-control {
 	background: #333 url('Portrait-Control.png') no-repeat;
@@ -360,7 +361,7 @@
     border-radius: 3px;
 }
 
-.news .discord-button{
+.news .link-button{
     color: rgb(255, 187, 0);
     font-weight: bold;
     text-decoration: none;
@@ -368,6 +369,13 @@
     font-size: 20px;
     margin-top: 20px;
 }
+
+.news .link-button img{
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
 
 #social-links{
     position: absolute;
@@ -401,6 +409,9 @@
 }
 
 #social-links a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: #ddd;
     font-size: 30px;
     background-color: rgba(0, 0, 0, 0.5);
@@ -408,7 +419,6 @@
     text-align: center;
     width: 50px;
     height: 50px;
-    display: block;
     line-height: 55px;
     border: solid 2px #000;
     margin-bottom: 10px;

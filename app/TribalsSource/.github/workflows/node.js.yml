@@ -1,0 +1,13 @@
+on: push
+name: 🚀 Deploy Poki on push
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: fifsky/ssh-action@master
+        with:
+          command: cd /root/tribals-deploy/tribals/ && git pull origin main && cd /root/tribals-deploy && sudo poki upload
+          host: 143.42.205.244
+          user: root
+          pass: Wu8M<jB=2#rA<sg)

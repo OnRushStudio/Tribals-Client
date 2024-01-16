@@ -1,0 +1,22 @@
+<div class="popup">
+    <div class="popup-header">
+        Premium Subscription
+        <a v-on:click="closePopup()" href="javascript:;" class="popup-close"><i class="fa fa-times" aria-hidden="true"></i></a>
+    </div>
+
+    <div class="popup-content popup-content-no-padding popup-content-no-scroll">
+        <div class="subscription-side">
+            <img :src="getImage('Subscription-Banner.jpg')">
+        </div>
+        <div class="subscription-content">
+            <li>
+                <i class="fa fa-check"></i> Access to more than 50 skins!
+            </li>
+        </div>
+    </div>
+
+    
+    <div class="popup-bottom-content">
+        <a target="_blank" class="btn btn-primary" href="https://discord.gg/TyRu47mHzF"><i class="fab fa-discord"></i> Buy Tribals+</a>
+    </div>
+</div>

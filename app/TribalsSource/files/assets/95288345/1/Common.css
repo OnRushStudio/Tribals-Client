@@ -159,6 +159,9 @@ canvas, #canvas {
 }
 
 .btn{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     padding: 13px 30px;
     text-align: center;
     float: right;
@@ -170,6 +173,16 @@ canvas, #canvas {
     font-family: 'Passion One', Arial, Helvetica, sans-serif;
     /*font-weight: bold;*/
     text-transform: uppercase;
+}
+
+.btn i{
+    margin-left: 5px;
+}
+
+.btn img{
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
 }
 
 table .btn{
@@ -227,6 +240,7 @@ button{
     border-color: #4b8a17;
 }
 
+.button.button-cancel,
 .button-cancel{
 	background-color: #c21c1c !important;
 	border-radius: 5px;
@@ -241,6 +255,14 @@ button{
 	transition: ease all 0.4s;
 	border: 1px solid transparent;
 }
+
+.button.button-cancel:hover,
+.button-cancel:hover {
+    background-color: #fff;
+    color: #c21c1c;
+    border-color: #c21c1c;
+}
+
 
 
 .tos-text{

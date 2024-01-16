@@ -1,5 +1,65 @@
 ## Changes
 
+## 1.1.26 - 8 Jan 2024
+- Screen shake effects on screen decreased for better PvP experience.
+- Walking, aiming, strafing, jumping and landing animations improved.
+- Item change animations improved.
+- Doors interaction timeout decreased.
+- Taking item from ground can be done faster now.
+- An issue fixed with backend saving systems.
+- Updated upgrade hammer color, it was being used to see inside the building.
+- Updated jumping cooldown.
+- Stone window wall model updated, it was wrong.
+- Crosshair disappear problem fixed.
+- Menu background image has been updated.
+
+## 1.1.25 - 19 Dec 2023
+- Tell command added.
+- Compass hide settings added.
+- Show killers username on inbox.
+- Durability displayed on Tooltip.
+- Different chat color for party members (Only shows if you are in the party)
+- Inbox now shows actions from the past week rather than the 10 latest actions.
+- Bow & Spikes no longer stun for a long time.
+- Server Backups added with an automatic reloader if something goes wrong.
+- Some bugs fixed.
+- Menu discord link and button fixed.
+
+## 1.1.24 - 6 Nov 2023
+- Sleeping bed rework, you can now choose what bed to spawn at.
+- Sleeping bed cooldown set to 5 minutes. (There is no limit to how many you can place in your base)
+- Respawn button respawns you in a random location now.
+- Paint color added to more structures (Fence, Pillar, Stairs, Slope, BigStorage, Storage)
+- BearTrap stuns the person for 2.5 seconds now so they can’t move.
+- Cooked Fish stacks increased to 100, normal fish are still at 20.
+- Map pins optimized & improved.
+- Party increased to 8 total members including the owner.
+- Wall, Window, DoorGateway, Fence, and Slope snaps added to Roof.
+- Discord link on main menu fixed.
+- Compass added to the top of the screen.
+- Building Sacks added that drop which contain an inventory rather than dropping each item separate. They last for 10 minutes and destroy after no more items are inside of them.
+- Whole animation system redo to support skins.
+- Mobile controllers improved.
+- Stairs/Slopes fixed.
+- Chat history added for that session.
+- 1 Wooden Spear Skin
+- 2 Pistol Skins
+- 2 Musket Skins
+- 2 Iron Spear Skins
+- 2 Stone Pickaxe Skins
+- 2 Stone Spear Skins
+- 3 Hatchet Skins
+- 3 Iron Hatchet Skins
+- 4 Iron Pickaxe Skins
+- You can obtain these 21 skins by placing the item inside of a Repair Table and watching Ads to apply them
+
+## 1.1.23 - 15 Sep 2023
+- Removed "/reset" command
+- QuickMove bug fixes.
+- Some item recipes reduced a little bit.
+- Iron & Sulfur cooking times a little quicker.
+- Some collision fixes.
+
 ## 1.1.22 - 14 Sep 2023
 - IronFragment & CookedSulfur added.
 - Iron stack changed from 100 to 1,000.

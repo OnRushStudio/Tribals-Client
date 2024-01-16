@@ -20,7 +20,7 @@
 
 	$branch_id      = '076ed07f-e5d4-4fc1-aa44-049fb7945cd1';
 
-	$bunny_base = '/'.$storage.'/';
+	$bunny_base = '/'.@$storage.'/';
 	$bunny_api  = '710256d9-1984-4059-9f68-2e9df97b2b59';
 
 	function progressBar($done, $total) {
@@ -143,7 +143,7 @@
 	shell_exec('javascript-obfuscator __game-scripts.js --output __game-scripts.js --self-defending true');
 
 	//get ads txt from poki com and replace ads.txt file
-	$ads = file_get_contents('https://poki.com/ads.all.txt');
+	$ads = file_get_contents('https://poki.com/ads.txt');
 	file_put_contents('ads.txt', $ads);
 
 	echo "✅ Deployment is done! Enjoy your coffee!"."\n";

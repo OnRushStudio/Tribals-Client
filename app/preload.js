@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
-                console.log(node.id)
+                // console.log(node.id)
                 if (node.id == "menu" || node.id == "play-section") {
                     if (!document.getElementById("closeClientBtn")) {
                         let menuCont = document.querySelector("#social-links");

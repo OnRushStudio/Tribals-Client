@@ -60,6 +60,29 @@
                     </div>
                 </div>
 
+                <div class="field-wrap">
+                    <div class="field field-checkbox">
+                        <label for="hideCompass">{{translate('Hide Compass')}}</label>
+                        <div class="field-toggle-wrapper">
+                            <input class="toggle" type="checkbox" id="hideCompass"
+                            v-model="settings.hideCompass">
+                            <label for="hideCompass"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="title" for="compassBarScale">{{translate('Compass Bar Size')}}</label>
+
+                    <div class="input-slider-wrapper">
+                        <div class="input-slider-text">
+                            {{settings.compassBarScale}}
+                        </div>
+                        
+                        <input id="compassBarScale" type="range" min="50" max="100" v-model="settings.compassBarScale">
+                    </div>
+                </div>
+
                 <div class="field">
                     <label class="title" for="toolboxIconScale">{{translate('Toolbox Icon Size')}}</label>
 
@@ -180,7 +203,7 @@
                         </tr>
 
                         <tr v-for="item in keyboardConfiguration">
-                            <td><span v-if="!item.waiting">{{translate(item.function)}}</span>{{item.waiting ? (translate('PRESS ANY KEY') + '...') : ''}}</td>
+                            <td><span v-if="!item.waiting">{{translate(item.functionName)}}</span>{{item.waiting ? (translate('PRESS ANY KEY') + '...') : ''}}</td>
                             <td><p class="keyboard-key">{{item.key}}</p></td>
                             <td>
                                 <button  v-on:click="updateKeyboardBind(item)"  class="btn-table" type="button">{{translate('Update')}}</button>

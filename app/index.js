@@ -2,7 +2,6 @@ require('v8-compile-cache')
 const { app, BrowserWindow, clipboard, protocol, screen, ipcMain, ipcRenderer, shell } = require('electron')
 const path = require('path')
 const fs = require('fs')
-const https = require('https');
 const Store = require('electron-store');
 const userPrefs = new Store({
     defaults: {
@@ -26,15 +25,6 @@ const launchArgs = require('./modules/launchArgs');
 launchArgs.pushArguments()
 
 app.allowRendererProcessReuse = true;
-
-const express = require('express');
-const expressapp = express();
-
-expressapp.use(express.static(path.join(__dirname, 'TribalsSource')));
-
-expressapp.listen(7481, function () {
-  console.log('App listening on port 7481!');
-});
 
 protocol.registerSchemesAsPrivileged([{
     scheme: "swap",
@@ -73,8 +63,9 @@ class Client {
 
         this.win.removeMenu()
         this.win.setFullScreen(userPrefs.get('fullscreenMode'))
-        this.win.loadURL('http://localhost:7481/')
-            .catch((error) => console.log(error))
+
+        this.win.loadURL(path.join(__dirname, 'TribalsSource', 'index.html'))
+        .catch((error) => console.log(error));
 
         this.win.on('ready-to-show', () => {
             this.win.show()
@@ -128,7 +119,7 @@ class Client {
 
     initShortcuts() {
         shortcut.register(this.win, 'F4', () => {
-            this.win.loadURL('https://tribals.io')
+            this.win.loadURL(path.join(__dirname, 'TribalsSource', 'index.html'))
                 .catch((error) => console.log(error))
         })
         shortcut.register(this.win, 'Escape', () => {

@@ -152,6 +152,9 @@
                                 <!-- <td>{{number(server.progress / (1000 * 60))}}m</td> -->
                                 <td>{{server.lastJoin}}</td>
                                 <td>
+                                    <button v-if="currentServerHash && server.gamemode == 'Test' && server.players < server.maxPlayers" v-on:click="transferReview(server.hash)" class="btn-table btn-table-secondary">{{translate('Transfer')}} <i class="fa fa-random" aria-hidden="true"></i></button>
+                                </td>
+                                <td>
                                     <button v-on:click="connect(server.hash)" class="btn-table">{{translate('Connect')}} <i class="fa fa-sign-in" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
@@ -190,6 +193,9 @@
                                 <td>{{number(server.upTime / (1000 * 60))}}m</td>
                                 <td>{{server.lastJoin}}</td>
                                 <td>{{server.gamemode}}</td>
+                                <td>
+                                    <button v-if="currentServerHash && server.players < server.maxPlayers" v-on:click="transferReview(server.hash)" class="btn-table btn-table-secondary">{{translate('Transfer')}} <i class="fa fa-random" aria-hidden="true"></i></button>
+                                </td>
                                 <td>
                                     <button v-on:click="connect(server.hash)" class="btn-table">{{translate('CONNECT')}} <i class="fa fa-sign-in" aria-hidden="true"></i></button>
                                 </td>

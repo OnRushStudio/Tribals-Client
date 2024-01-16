@@ -3,6 +3,8 @@
     @import "Menu.Updates.html"
     @import "Menu.Inbox.html"
 
+    <!-- @import "Subscription.Popup.html" -->
+
     <div id="shadow">
         <a href="javascript:;" onclick="window.location.reload()">
             <div id="logo">
@@ -20,7 +22,7 @@
         <div id="social-links" class="desktop-only">
             <!--<a target="_blank" href="https://twitter.com/tribalsio"><i class="fa fa-twitter" aria-hidden="true"></i></a>
             <a target="_blank" href="https://www.reddit.com/r/TribalsIO/"><i class="fa fa-reddit-alien" aria-hidden="true"></i></a>-->
-            <a target="_blank" href="https://discord.gg/TyRu47mHzF"><i class="fab fa-discord"></i></a>
+            <a target="_blank" href="https://discord.gg/tribals-874358425004429334"><img :src="getImage('Discord-Icon.png')"></a>
             <a target="_blank" href="https://wiki.tribals.io/"><i class="fa fa-book"></i></a>
             <!--will be removed from poki-->
             <a v-if="!isPoki" target="_blank" href="https://feedback.tribals.io/"><i class="fa fa-commenting" aria-hidden="true"></i></a>
@@ -171,7 +173,7 @@
             <div id="game-info">
                 <p><i class="fa fa-user-circle" aria-hidden="true"></i> {{translate('Online')}} - {{online}}</p>
                 <a href="https://tribals.io/changes.txt" target="_blank" > Version - {{version}}</a>
-                <a v-if="!isPoki" href="https://tribals.io/privacy.txt" target="_blank">Privacy</a>
+                <a v-if="!isPoki" href="https://onrush.studio/privacy.txt" target="_blank">Privacy</a>
             </div>
 
             <!--

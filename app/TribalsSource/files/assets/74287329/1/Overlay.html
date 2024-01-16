@@ -5,6 +5,12 @@
             <h2>{{tooltip.item.label}}</h2>
             <p>{{tooltip.item.description}}</p>
 
+            <!-- Durability -->
+            <span v-if="tooltip.item.durability > 0 && tooltip.item.maxDurability > 0">
+                <h3>Durability</h3>
+                <p>Durability : <b class="damage">{{tooltip.item.durability}}/{{tooltip.item.maxDurability}}</b></p>
+            </span>
+
             <!--Damage info-->
             <span v-if="tooltip.item.animalDamage">
                 <h3>Damages</h3>
@@ -88,6 +94,42 @@
             </span>
         </div>
 
+        <div id="chat" :class="{'active' : showChat}" v-if="!overlaySettings.hideChat && !isMobile">
+            <div id="messages-wrapper" :class="{'chat-disactive' : !isFocused}">
+                <div class="mobile-chat" v-on:click="toggleChat()">
+                    <i class="fa" :class="{'fa-commenting' : !showChat, 'fa-angle-left' : showChat}" aria-hidden="true"></i>
+                </div>
+                <div id="messages">
+                    <li 
+                    v-for="message in messages" :class="{'console' : message.username == 'Console' || message.username == 'Server' || message.username == 'Party' || message.username.includes('[PARTY] '), 'whisper' : message.username.includes('[WHISPER] '), 'staff' : message.username.includes('[STAFF] ') || message.username == 'meta' }"
+                    v-on:click="copyTextToClipboard(message.username)">
+                        <a v-if="message.username != 'Console' && message.username != 'Server' && message.username != 'Party'" href="javascript:;" v-on:click="report(message.rawUsername, 'chat')" class="report-button"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+
+                        <b>{{message.username}}: </b> {{message.message}}
+                    </li>
+                </div>
+            </div>
+
+            <div id="emoji-selection" v-if="emojis.length > 0">
+                <li :class="{'active' : emojiIndex == index}" v-for="(emoji, index) in emojis"><span class="icon">{{emoji.emoji}}</span> <span class="code">:{{emoji.keywords[0]}}:</span></li>
+            </div>
+
+            <input 
+                v-on:blur="blurChat()"
+                id="chat-message"
+                v-on:keyup.38="emojiIndex > 0 ? emojiIndex-- : emojiIndex"
+                v-on:keyup.40="emojiIndex < emojis.length - 1 ? emojiIndex++ : emojiIndex"
+                v-on:click="focusChat()"
+                v-model="message"
+                autocomplete="off"
+                type="text" 
+                :placeholder="translate('Press \[ENTER\] to chat!')"
+            />
+            <div class="typing">
+                <span v-if="typing.people > 0"><i class="fa fa-pencil" aria-hidden="true"></i> {{typing.people}} {{translate('people typing')}}...</span>
+            </div>
+        </div>  
+
         <div id="mini-map" class="hud-map gameplay-element" v-if="!isDeath && !isSleeping && !showInventory && !showGeneralMap && !isMobile && !overlaySettings.streamerMode">
             <div
                 v-if="(!overlaySettings.streamerMode && pin.isMine) || (!overlaySettings.streamerMode && !pin.isMine) || (overlaySettings.streamerMode && !pin.isMine)"
@@ -133,7 +175,7 @@
         </div>
 
         <!--<div id="compass" v-if="!isDeath && !isSleeping" class="gameplay-element">
-            <div id="compass-inside" :style="{'left' : (direction % 360 - 360) * 4.0 + 'px'}">
+            <div id="compass-inside" :style="{'left' : (player.direction % 360 - 360) * 4.0 + 'px'}">
                 <li><span></span>N</li>
                 <li><span></span>E</li>
                 <li><span></span>S</li>
@@ -147,8 +189,8 @@
                 <li><span></span>S</li>
                 <li><span></span>W</li>
             </div>
-        </div>
-        -->
+        </div>-->
+        
 
         <div id="quests" v-if="!showInventory && !isPaused && !showGeneralMap">
             <!-- tutorial changes
@@ -323,41 +365,84 @@
         </div>
 
 
-        <div id="death" v-if="isDeath" :class="{'darker' : death.canSpawn}">
+        <div id="death" v-if="isDeath || isTransfer" :class="{'darker' : death.canSpawn || isTransfer }">
             <a v-if="death.username" href="javascript:;" v-on:click="report(death.username, 'kill')" class="full-report-button">Report <i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
 
-            <div id="death-header">        
+            <div id="death-header" v-if="isDeath">        
                 <p> <img :src="getImage('Skull-Pin.png')">  <b>{{translate('Dead')}}:</b> {{death.text}}</p>
             </div>
             
             <!-- v-if="death.canSpawn"-->
             <div id="death-context-later" v-if="death.canSpawn">
-                <div id="mini-map">
-                    <div 
-                        v-for="pin in pins"
-                        class="map-pin"
-                        :style="{
-                        'left' : '' + testOffset - (pin.x) * testScale + 'px',
-                        'top' : '' + testOffset - (pin.y) * testScale + 'px',
-                        }"
-                    >
-                        <img :src="getImage(pin.icon)">
-                    </div>
-                    
-                    <span class="overflow">
-                        <div class="map-holder">
-                            <img :src="getImage('Island-0x0-Map.jpg')">
-                        </div>
-                        <!--<span class="player" :style="{'transform' : 'translate(-50%, -50%) rotate(' + -(angle - 270) + 'deg)'}"></span>-->
-                    </span>
-                </div>
 
+                <div class="death-map-wrapper">
+                    <div class="map-box">
+                        <div id="mini-map">
+                            <div 
+                                v-for="(pin, index) in pins"
+                                class="map-pin"
+                                v-on:click="respawnCommercialBreak(pin)"
+                                :highlight="'highlight-' + index"
+                                v-on:mouseover="setHighlight('highlight-' + index)"
+                                v-on:mouseleave="removeHighlight()"
+                                :style="{
+                                'left' : (!isMobile ? (testOffset - 5) - (pin.x) * (testScale - 0.10) : ((testOffset - 5) - (pin.x) * (testScale - 0.10)) / 2) + 'px',
+                                'top' :  (!isMobile ? (testOffset - 6) - (pin.y) * (testScale - 0.15) : ((testOffset - 6) - (pin.y) * (testScale - 0.15)) / 2) + 'px',
+                                }"
+                            >
+                                <img :src="getImage(pin.icon)">
+
+                                <div class="pin-timer" v-if="pin.nextRespawn">
+                                    {{pin.nextRespawn}}
+                                </div>
+                            </div>
+
+                            <span class="overflow">
+                                <div class="map-holder">
+                                    <img :src="getImage('Island-0x0-Map.jpg')">
+                                </div>
+                                <!--<span class="player" :style="{'transform' : 'translate(-50%, -50%) rotate(' + -(angle - 270) + 'deg)'}"></span>-->
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="map-detail-box">
+                        <h1> Spawn Points </h1>
+                        <ul>
+                            <li v-for="(pin, index) in pins"
+                                v-if="pin.type == 'bed'"
+                                class="map-detail"
+                                :class="pin.type"
+                                :highlight="'highlight-' + index"
+                                v-on:click="respawnCommercialBreak(pin)"
+                                v-on:mouseover="setHighlight('highlight-' + index)"
+                                v-on:mouseleave="removeHighlight()"
+                                >
+                                <img :src="getImage(pin.icon)">
+                                <div class="detail-head">
+                                    <p>{{pin.type}} <span>{{pin.owner}} </span> </p>
+                                </div>
+                                
+                                <div class="detail-content"> 
+                                    <div class="pin-timer" v-if="pin.nextRespawn">
+                                        {{pin.nextRespawn}}'s
+                                    </div>
+
+                                    <div class="pin-button" v-if="!pin.nextRespawn">
+                                        Respawn 
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
                 <button v-on:click="respawnCommercialBreak()" class="craft-button spawn-attention">
                     <i class="fa fa-refresh" aria-hidden="true"></i> {{translate('Respawn')}}
                 </button>
             </div>
 
-            <div id="death-counter" v-if="!death.canSpawn">
+            <div id="death-counter" v-if="!death.canSpawn && !isTransfer">
                 <i class="fa fa-clock-o" aria-hidden="true"></i> {{translate('You can respawn in')}} <b>{{death.countDown}}s</b>.
 
                 <div class="bar">
@@ -387,9 +472,9 @@
 
         <div id="hitmarker"></div>
 
-        <div id="crosshair" v-if="!showInventory && !isDeath && !isSleeping && !isAiming && !overlaySettings.hideCrosshair" 
+        <div id="crosshair" v-if="!showInventory && !isDeath && !isSleeping && !isAiming" 
             :class="{'walking' : isWalking}" 
-            :style="{'transform' : 'translate(-50%, -50%) scale('+ overlaySettings.crosshairScale +')'}">
+            :style="{'transform' : 'translate(-50%, -50%)'}">
 
             <li></li>
             <li></li>
@@ -780,6 +865,72 @@
                 </div>
             </div>
 
+            <div id="repair-table" class="external-craft-section" v-if="activeActor.name == 'RepairTable'">
+                <div class="section-wrapper center-content">
+                    
+                    <div class="toolbox-info small" v-if="repairSkinList.length == 0">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i> {{translate('Place an item in the slot below to start repairing!')}} 
+                    </div>
+
+                    <div class="external-center-content">
+                        <div class="center-slot">
+                            <slots 
+                                v-if="isLoaded"
+                                name="external-inventory" 
+                                type="External" 
+                                :inventory="activeActor.inventory.slice(0, activeActor.slots)" 
+                                :states="states"
+                                :icons="['Hammer-Icon.png']"
+                                :actor="activeActor"
+                            >
+                            </slots>
+                        </div>
+
+                        <div class="repair-section-info" v-if="repairCostList.length > 0">
+                            <h2 class="title"> {{translate('Needs Materials')}}  </h2>
+
+                            <div class="repair-info-item-wrapper">
+                                <div class="repair-info-item" v-for="item in repairCostList">
+                                    <img :src="getImage(item.name + '-Icon.png')">
+                                    <span>{{ item.stack }} x {{ item.name }}</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="skin-list" v-if="repairSkinList.length > 0">
+                        <h2>{{ translate(repairSkinList.length + ' Skin' + (repairSkinList.length > 1 ? 's' : '')) }}</h2>
+                        <div class="scroll-container">
+                            <span v-on:click="clickToScrollHorizontal('left')" class="scroll-btn scroll-left" v-if="repairSkinList.length > 5"><i class="fa fa-chevron-left"></i></span>
+
+                            <div id="scroll-wrapper" class="skin-wrapper" :class="{'center-align' : repairSkinList.length < 5 }">
+                                <div class="skin-content" v-for="skin in repairSkinList">
+                                    <div class="skin-icon-container hint--right hint--no-animate" v-on:click="actorAction(skin.name)" :aria-label="skin.name">
+                                        <img :src="skin.thumbnail" class="item-image">
+                                        <div class="skin-info" v-if="skin.adsWatched < skin.reward_count">
+                                            <i class="fa fa-film"></i>
+                                            <span class="ad-count">{{skin.adsWatched}} / {{skin.reward_count}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <span v-on:click="clickToScrollHorizontal('right')" class="scroll-btn scroll-right" v-if="repairSkinList.length > 5"><i class="fa fa-chevron-right"></i></span>
+                        </div>
+
+                    </div>
+
+                    <button class="craft-button" v-on:mousedown="actorAction(currentListing.name)" v-if="repairCostList.length > 0">
+                        <div v-if="isActorBusy" class="loader loader-center"></div>
+                        <span v-if="!isActorBusy">
+                            <img :src="getImage('Hammer-Icon.png')">
+                            {{translate('Repair')}}
+                        </span>
+                    </button>
+                </div>
+            </div>
+
             <div class="external-full-section" v-if="activeActor.name == 'VendingMachine'">
                 <div v-if="actorTab == 'General'" class="listing-table listing-scroll">                
                     <div class="listing-head-wrap">
@@ -992,7 +1143,6 @@
                 </button>
             </div>
 
-
             <div v-if="activeActor.name == 'Smelter'">
                 <div class="section-title">{{translate('Material')}} </div>
                 <slots 
@@ -1059,6 +1209,19 @@
                 </div>
             </div>
 
+            <div class="external-inventory-section" v-if="activeActor.name == 'BuildingSack'">
+                <div class="slot-container">
+                    <slots 
+                        v-if="isLoaded"
+                        name="external-inventory" 
+                        type="External" 
+                        :inventory="activeActor.inventory.slice(0, 35)" 
+                        :states="states"
+                    >
+                    </slots>
+                </div>
+            </div>
+
             <div class="external-craft-section" v-if="activeActor.name == 'Toolbox'">
                 <div class="toolbox-info">
                     <i class="fa fa-clock-o" aria-hidden="true"></i> {{translate('Toolbox can protect the base for')}}  <b :class="{'danger' : activeActor.time == '0d 0h 0m'}" class="success">{{activeActor.time}}</b>.<br>
@@ -1097,7 +1260,7 @@
         <!--<div id="inventory-banner" v-if="showInventory">
 
         </div>-->
-
+        
         <div id="party" class="party-wrapper" v-if="showInventory && !isDeath && !isSleeping">
             
             <div class="create-party" v-if="!party.request && !party.active">
@@ -1148,42 +1311,7 @@
                 <button class="leave-party danger-btn" v-if="party.owner && !party.request" v-on:click="leaveParty()">{{translate('Disband Party')}}</button>
             </div>
         </div>
-
-        <div id="chat" :class="{'active' : showChat}" v-if="!overlaySettings.hideChat && !isMobile">
-        
-            <div class="mobile-chat" v-on:click="toggleChat()">
-                <i class="fa" :class="{'fa-commenting' : !showChat, 'fa-angle-left' : showChat}" aria-hidden="true"></i>
-            </div>
-
-            <div id="messages">
-                <li 
-                v-for="message in messages" :class="{'console' : message.username == 'Console' || message.username == 'Server' || message.username == 'Party'}"
-                v-on:click="copyTextToClipboard(message.username)">
-                    <a v-if="message.username != 'Console' && message.username != 'Server' && message.username != 'Party'" href="javascript:;" v-on:click="report(message.rawUsername, 'chat')" class="report-button"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
-
-                    <b>{{message.username}}: </b> {{message.message}}
-                </li>
-            </div>
-
-            <div id="emoji-selection" v-if="emojis.length > 0">
-                <li :class="{'active' : emojiIndex == index}" v-for="(emoji, index) in emojis"><span class="icon">{{emoji.emoji}}</span> <span class="code">:{{emoji.keywords[0]}}:</span></li>
-            </div>
-
-            <input 
-                v-on:blur="blurChat()"
-                id="chat-message"
-                v-on:keyup.38="emojiIndex > 0 ? emojiIndex-- : emojiIndex"
-                v-on:keyup.40="emojiIndex < emojis.length - 1 ? emojiIndex++ : emojiIndex"
-                v-on:click="focusChat()"
-                v-model="message"
-                autocomplete="off"
-                type="text" 
-                :placeholder="translate('Press \[ENTER\] to chat!')"
-            />
-            <div class="typing">
-                <span v-if="typing.people > 0"><i class="fa fa-pencil" aria-hidden="true"></i> {{typing.people}} {{translate('people typing')}}...</span>
-            </div>
-        </div>        
+      
         <div id="hand" v-if="!selection.active && !isDeath && !isSleeping && !showInventory && !showChat">
             <slots 
                 v-if="isLoaded"
@@ -1208,11 +1336,12 @@
             v-on:touchmove="joystickEvent('touchmove', $event)"
             v-on:touchend="joystickEvent('touchend', $event)"
             >
-                <div class="mobile-movement">
-                    <div 
-                    class="mobile-joystick"
-                    :style="{'marginLeft' : mobile.joystick.x + 'px', 'marginTop' : mobile.joystick.y + 'px'}"
-                    ></div>
+                <div class="mobile-movement" 
+                        :style="{'left': (mobile.joystick.startX !== 0 ? mobile.joystick.startX - 65 + 'px' : '20%'), 'top': (mobile.joystick.startY !== 0 ? mobile.joystick.startY - 65 + 'px' : '50%')}">      
+                        <div 
+                            class="mobile-joystick"
+                            :style="{'marginLeft' : mobile.joystick.x + 'px', 'marginTop' : mobile.joystick.y + 'px'}"
+                        ></div>
                 </div>
             </div>
 
@@ -1335,8 +1464,8 @@
                         v-on:mouseover="setHighlight('highlight-' + index)"
                         v-on:mouseleave="removeHighlight()"
                         :style="{
-                        'left' : '' + (testOffset - 10) - (pin.x) * (testScale - 0.10) + 'px',
-                        'top' : '' +  (testOffset - 15) - (pin.y) * (testScale - 0.15) + 'px',
+                        'left' : '' + (testOffset - 5) - (pin.x) * (testScale - 0.10) + 'px',
+                        'top' : '' +  (testOffset - 6) - (pin.y) * (testScale - 0.15) + 'px',
                         }"
                     >
                         <img :src="getImage(pin.icon)">
@@ -1347,8 +1476,8 @@
                             <img :src="getImage('Island-0x0-Map.jpg')">
                         </div>
                         <div class="player-holder" :style="{
-                            'left' : '' + (testOffset - 10) - player.position.x  * (testScale - 0.10) + 'px',
-                            'top' : '' + (testOffset - 15) -  player.position.y * (testScale - 0.15) + 'px'
+                            'left' : '' + (testOffset - 5) - player.position.x  * (testScale - 0.10) + 'px',
+                            'top' : '' + (testOffset - 6) -  player.position.y * (testScale - 0.13) + 'px'
                             }">
                             <span class="player" :style="{'transform' : 'translate(-50%, -50%) rotate(' + -(angle - 270) + 'deg)'}"></span>
                         </div>

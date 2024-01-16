@@ -1,0 +1,18 @@
+.subscription-side{
+    float: left;
+    width: 300px;
+    background-color: #242425;
+    position: relative;
+    height: 100%;
+}
+
+.subscription-side img{
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+}
+
+.subscription-content{
+    float: left;
+    width: 400px;
+}

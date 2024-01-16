@@ -31,10 +31,19 @@
 }
 
 .popup-content-scroll{
-    height: calc(100% - 40px);
+    height: 100%;
     max-height: initial;
     
     overflow-y: scroll;
+}
+
+.popup-content-no-padding{
+    padding: 0px;
+    height: calc(100% - 40px);
+}
+
+.popup-content-no-scroll{
+    overflow-y:hidden;
 }
 
 .popup-content li{

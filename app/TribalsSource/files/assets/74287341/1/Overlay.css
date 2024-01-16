@@ -12,6 +12,10 @@ html {
     width: 100%;
 }
 
+.fake-lock, .fake-lock *{
+    cursor: none !important;
+}
+
 hr{
     border-top: solid 3px #e4bd7d;
     border-bottom: solid 1px #efc37f;
@@ -24,6 +28,200 @@ hr{
 	background-size: 90%;
 	background-position: center;
     display: none;
+}
+
+.repair-info-item-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.repair-info-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: 17px;
+    padding: 3px 10px;
+    border: 2px solid #826045;
+    background: #191512;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    box-sizing: border-box;
+}
+
+.repair-section-info {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.repair-section-info:before{
+    content: "";
+    position: absolute;
+    height: 95%;
+    width: 2px;
+    background: #453121;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -10%;
+}
+
+.repair-section-info > h2{
+    font-size: 23px;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.repair-info-item img {
+    width: 30px; 
+    height: 30px; 
+    margin-right: 10px;
+}
+
+.skin-list{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    /*background: rgba(0,0,0,0.4);
+    border: 2px solid #231811;*/
+    border-radius: 5px;
+    /*padding: 10px 20px;*/
+    margin-top: 20px;
+    box-sizing: border-box;
+}
+
+.skin-list h2{
+    font-size: 23px;
+    margin: 0 0 10px 0;
+}
+
+.scroll-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.4);
+    border: 2px solid #231811;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.scroll-container .scroll-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 35px;
+    background: #7b6247;
+    border: 1px solid #552e15;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: -25px;
+}
+
+.scroll-container .scroll-btn.scroll-right{
+    margin-left: initial;
+    margin-right: -25px;
+}
+
+.scroll-container .scroll-btn:hover{
+    transform: scale(1.05);
+}
+
+.scroll-container #slide-1:checked ~ .skin-wrapper .icons {
+    transform: translateX(0);
+}
+
+.scroll-container #slide-2:checked ~ .skin-wrapper .icons {
+    transform: translateX(-90px);  /* Adjust for the width and margin of each item */
+}
+
+.skin-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.skin-wrapper::-webkit-scrollbar-track {
+  background: rgb(172 134 95 / 30%); 
+  border-radius: 3px;
+}
+ 
+/* Handle */
+.skin-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(146, 96, 66, 0.65);
+  border-radius: 3px;
+}
+
+/* Handle on hover */
+.skin-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #c5bebc; 
+}
+
+
+.skin-wrapper.center-align{
+    justify-content: center;
+}
+
+.skin-wrapper .skin-icon-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 110px;
+    min-width: 110px;
+    height: 110px;
+    background:url('Slot-Background.png') center center no-repeat;
+    background-size: cover;
+    gap: 5px;
+    padding: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.skin-wrapper .skin-icon-container:last-child{
+    margin-right: 0;
+}
+
+.skin-wrapper .skin-icon-container:hover{
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+.skin-icon-container img {
+    width: 90%;
+}
+
+.item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.skin-wrapper .skin-info {
+    position: absolute;
+    background-color: rgb(191 111 41 / 70%);
+    width: 80%;
+    border-radius: 5px;
+    padding: 2px 0;
+    font-size: 19px;
+    text-align: center;
+    bottom: 10px;
 }
 
 #mobile-controller{
@@ -79,6 +277,15 @@ hr{
     padding: 0;
 }
 
+.center-slot{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    
+}
+
 .slot-container {
     position: relative;
 }
@@ -87,6 +294,26 @@ hr{
     width: 101.5%;
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+.slot-container-horizontal{
+    position: relative;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+
+/* width */
+.slot-container-horizontal::-webkit-scrollbar {
+    width: 8px;
+    height: 8px; 
+}
+
+
+.slot-container-horizontal .slot-wrapper{
+    display: flex;
+    flex-direction: row;
 }
 
 #inventory .slot-container .slot-wrapper{
@@ -99,6 +326,33 @@ hr{
 
 #external-inventory .external-craft-section .slot-container .slot-wrapper{
     max-height: calc(405px - 140px);
+}
+
+#external-inventory .external-craft-section,
+#external-inventory .external-craft-section .section-wrapper{
+    height: 100%;
+}
+
+#external-inventory .external-craft-section .section-wrapper.center-content{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.external-center-content{
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.4);
+    border: 2px solid #231811;
+    border-radius: 5px;
+    padding: 10px 20px;
+    box-sizing: border-box;
 }
 
 #hand li, #inventory li, #external-inventory li{
@@ -1053,8 +1307,38 @@ button.form-button:hover{
     cursor: pointer;
 }
 
+#messages-wrapper{
+    position: relative;
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-snap-align: end;
+}
+
+#messages-wrapper::-webkit-scrollbar-track {
+  background: rgb(172 134 95 / 30%); 
+  border-radius: 3px;
+}
+ 
+/* Handle */
+#messages-wrapper::-webkit-scrollbar-thumb {
+  background: rgb(29 18 11 / 65%);
+  border-radius: 3px;
+}
+
+/* Handle on hover */
+#messages-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #c5bebc; 
+}
+
+#messages-wrapper.chat-disactive{
+    max-height: 280px;
+} 
+
 #messages{
+    position: relative;
     margin-bottom: 20px;
+    height: 100%;
 }
 
 #messages li{
@@ -1093,9 +1377,10 @@ button.form-button:hover{
     border: solid 3px #000;
     border-radius: 5px;
     animation: appear 0.1s ease-out;
-    word-break: break-all;
+    word-break: break-word;
     white-space: pre-line;
     -moz-white-space: pre-line; 
+    overflow-wrap: anywhere;
 }
 
 @keyframes appear{
@@ -1125,6 +1410,14 @@ button.form-button:hover{
     color: #00cdff;
 }
 
+#chat li.whisper b{
+    color: #00ff73;
+}
+
+#chat li.staff b{
+    color: #ff0000;
+}
+
 #chat li.Error {
     background: red;
 }
@@ -1136,7 +1429,7 @@ button.form-button:hover{
 #interact{
     position: absolute;
     left: 50%;
-    top: 2%;
+    top: 3.5%;
     background: rgba(0, 0, 0, 0.5);
     transform: translate(-50%, 0%) scale(0.8);
     color: #fff;
@@ -1365,6 +1658,7 @@ button.form-button:hover{
     font-size: 31px;
     transform: translate(-50%, 0%) scale(1.0);
     transition: 0.1s transform ease-out;
+    z-index: 1;
 }
 
 .craft-reward{
@@ -3725,7 +4019,8 @@ button.form-button:hover{
     
 }
 
-#general-map #mini-map .map-pin.highlight-active{
+#general-map #mini-map .map-pin.highlight-active,
+#death #mini-map .map-pin.highlight-active{
     z-index: 1001;
 }
 
@@ -3734,7 +4029,8 @@ button.form-button:hover{
     height: 70%;
 }
 
-#general-map .map-detail-box{
+#general-map .map-detail-box,
+#death .map-detail-box{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -3750,18 +4046,21 @@ button.form-button:hover{
     z-index: 1;
 }
 
-#general-map .map-detail-box h1{
+#general-map .map-detail-box h1,
+#death .map-detail-box h1{
     display: flex;
     align-items: center;
     text-align: left;
     font-size: 23px;
+    color: #fff;
     text-shadow: 0px 1px 2px #000;
     margin: 0px;
     margin-bottom: 10px;
     text-transform: uppercase;
 }
 
-#general-map .map-detail-box ul{
+#general-map .map-detail-box ul,
+#death .map-detail-box ul{
     position: relative;
     display: flex;
     flex-direction: column;
@@ -3773,7 +4072,8 @@ button.form-button:hover{
     padding: 5px 0 0 0;
 }
 
-#general-map .map-detail-box li{
+#general-map .map-detail-box li,
+#death .map-detail-box li{
     position: relative;
     display: flex;
     flex-direction: row;
@@ -3792,47 +4092,76 @@ button.form-button:hover{
     transition: ease all 0.4s;
 }
 
-#general-map .map-detail-box li.bed{
+#general-map .map-detail-box li.bed,
+#death .map-detail-box li.bed{
    border-left: solid 8px rgb(255 157 73);
 }
 
-#general-map .map-detail-box li.shop{
+#general-map .map-detail-box li.shop,
+#death .map-detail-box li.shop{
    border-left: solid 8px rgb(255, 243, 73);
 }
 
-#general-map .map-detail-box li.death{
+#general-map .map-detail-box li.death,
+#death .map-detail-box li.death{
    border-left: solid 8px rgb(255, 73, 82);
 }
 
-#general-map .map-detail-box li.clan{
+#general-map .map-detail-box li.clan,
+#death .map-detail-box li.clan{
    border-left: solid 8px rgb(30, 151, 19);
 }
  
-#general-map .map-detail-box li:hover{
+#general-map .map-detail-box li:hover,
+#death .map-detail-box li:hover{
     transform: scale(1.02);
     transform-origin: center center;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-#general-map .map-detail-box li img{
+#general-map .map-detail-box li img,
+#death .map-detail-box li img{
     width: 30px;
     height: 30px;
     margin-right: 5px;
 }
 
-#general-map .map-detail-box li p{
+#general-map .map-detail-box li p,
+#death .map-detail-box li p{
     font-size: 15px;
     margin: 0;
     text-transform: capitalize;
 }
 
-#general-map .map-detail-box li p span{
+
+#death .map-detail-box li .detail-content{
+    position: absolute;
+    right: 10px;
+}
+
+#death .map-detail-box li .pin-timer,
+#death .map-detail-box li .pin-button{
+    border: 2px solid #f1382f;
+    background: rgba(0,0,0,0.35);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+}  
+
+#death .map-detail-box li .pin-button{
+    border: 2px solid #9ca53c;
+    background: rgb(79 119 63 / 35%);
+}
+
+#general-map .map-detail-box li p span,
+#death .map-detail-box li p span{
     display: block;
     font-size: 13px;
     text-transform: initial;
 }
 
-#general-map .map-detail-box li.highlight-active{
+#general-map .map-detail-box li.highlight-active,
+#death .map-detail-box li.highlight-active{
     animation: attention-highlight-map 0.45s ease-out;
     box-shadow: 0px 0px 4px #f4f819;
     animation-iteration-count: 5;
@@ -3943,7 +4272,8 @@ button.form-button:hover{
 
 #death button{
     width: 350px;
-    bottom: 135px;
+    bottom: 115px;
+    z-index: 2;
 }
 
 #death-header{
@@ -3974,6 +4304,12 @@ button.form-button:hover{
     font-size: 25px;
 }
 
+#death-context-later{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
 .full-report-button{
     position: absolute;
     left: 20px;
@@ -3996,17 +4332,73 @@ button.form-button:hover{
     font-weight: bold;
 }
 
-#death #mini-map{
+.death-map-wrapper{
+    position: absolute;
     left: 50%;
-    top: 50%;
+    top: 45%;
     transform: translate(-50%, -50%);
-    width: 90vh;
-    height: 90vh;
-    background-color: #506276;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#death .map-box{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 600px;
+    height: 600px;
+    background:url('Inventory-Background.png') no-repeat;
+    background-size: 100% 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+#death #mini-map{
+    position: relative;
+    right: initial;
+    left: initial;
+    top: initial;
+    width: 100%;
+    height: 100%;
+    border: solid 3px #9e7c41;
+    border-radius: 20px;
     overflow: hidden;
-    border: solid 3px #000;
-    border-radius: 5px;
-    
+}
+
+#death #mini-map .map-pin{
+    cursor: pointer;
+}
+
+#death #mini-map .map-pin:hover{
+    animation: attention-highlight 0.45s ease-out;
+    box-shadow: 0px 0px 8px #f4f819;
+    animation-iteration-count: 5;
+}
+
+#death #mini-map .pin-timer{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(42 42 42 / 80%);
+    border-radius: 100%;
+    color: #fff1f1;
+    font-size: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border: 2px solid #e53326;
+    box-sizing: border-box;
 }
 
 #crafting-level{
@@ -4778,6 +5170,16 @@ button.form-button:hover{
     line-height: 32px;
     border: solid 2px #000;
     margin-bottom: 20px;
+}
+
+.toolbox-info.small{
+    font-size: 18px;
+    line-height: 1.1;
+    padding: 8px 25px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 230px;
 }
 
 .toolbox-info b{
@@ -5679,7 +6081,8 @@ body.mobile{
 }
 
 .mobile #death #mini-map{
-    height: 65vh;
+    display: block;
+    border-radius: 5px;
 }
 
 .mobile #death button{
@@ -6840,13 +7243,20 @@ body.mobile{
     }
 }
 
+.mobile .death-map-wrapper{
+    width: 100%;
+    height: 100%;
+    top: 50%;
+}
+
 .mobile #general-map{
     width: 100%;
     height: 100%;
 }
 
-.mobile #general-map .map-box {
-    width: 45%;
+.mobile #general-map .map-box,
+.mobile #death .map-box {
+    width: 50%;
     height: 85%;
     padding: 15px;
     z-index: 2;
@@ -6866,30 +7276,37 @@ body.mobile{
     height: 35px;
 }   
 
-.mobile #general-map .map-detail-box{
-    width: 20%;
+.mobile #general-map .map-detail-box,
+.mobile #death .map-detail-box{
+    width: 30%;
     height: 70%;
 }
 
-.mobile #general-map .map-detail-box h1{
+.mobile #general-map .map-detail-box h1,
+.mobile #death .map-detail-box h1{
     font-size: 18px;
 }
 
-.mobile #general-map .map-detail-box ul{
+.mobile #general-map .map-detail-box ul,
+.mobile #death .map-detail-box ul{
     height: 100%;
     margin: 0;
 }
-.mobile #general-map .map-detail-box li{
+.mobile #general-map .map-detail-box li,
+.mobile #death .map-detail-box li{
     padding: 8px;
 }
-.mobile #general-map .map-detail-box li img{
+.mobile #general-map .map-detail-box li img,
+.mobile #death .map-detail-box li img{
     width: 25px;
     height: 25px;
 }
-.mobile #general-map .map-detail-box li p{
+.mobile #general-map .map-detail-box li p,
+.mobile #death .map-detail-box li p{
     font-size: 13px;
 }
-.mobile #general-map .map-detail-box li p span{
+.mobile #general-map .map-detail-box li p span,
+.mobile #death .map-detail-box li p span{
     font-size: 12px;
 }
 
